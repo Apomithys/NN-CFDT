@@ -11,6 +11,7 @@ def matmult(MMlayer, MMweights, MMLfrom, MMLto):
     #Status
     print("Matrixmultiplikation erfolgreich berechnet")
 
+#eingabe
 a = int(input("0: "))
 b = int(input("1: "))
 c = int(input("2: "))
@@ -18,10 +19,9 @@ layer0 = [ a, b, c]
 
 #gewichtungen zwischen layer0 und layer1
 weights0 = [3, 3, 3], [4, 4, 4]
-# weights1 = [1, 1, 1], [2, 2, 2]
-# weights2 = [5, 5]
-# layerOut = NN(layer0, weights0, weights1, weights2)
 
-#Berechnung des usgabelayers
+#Berechnung des asgabelayers
 layer1 = matmult(layer0, weights0, 3, 2)
+
+#ausgabe
 print(layer1)
