@@ -1,10 +1,6 @@
 #Status
 print("start test.py")
 
-class NN(self):
-        def __init__():
-            
-
 #Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
 def matmult(MMlayer, MMweights, MMLfrom, MMLto):
     MMlayerOut = [0, 0]
