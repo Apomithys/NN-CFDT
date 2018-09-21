@@ -11,19 +11,6 @@ def matmult(MMlayer, MMweights, MMLfrom, MMLto):
     #Status
     print("Matrixmultiplikation erfolgreich berechnet")
 
-# def NN(ENNlayer0, ENNweigths0, ENNweights1, ENNweights2):
-#     NNlayer0 = ENNlayer0
-#     NNlayer1 = [0, 0, 0]
-#     NNlayer2 = [0, 0]
-#     NNlayerOut = [0]
-#     NNweights0 = ENNweigths0
-#     NNweights1 = ENNweights1
-#     NNweights2 = ENNweights2
-#     NNlayer1 = matmult(NNlayer0, NNweights0, 3, 3)
-#     NNlayer2 = matmult(NNlayer1, NNweights1, 3, 2)
-#     NNlayerOut = matmult(NNlayer2, NNweights2, 2, 1)
-#     return(NNlayerOut)
-
 a = int(input("0: "))
 b = int(input("1: "))
 c = int(input("2: "))
