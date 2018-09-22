@@ -26,17 +26,33 @@
 # #ausgabe
 # print(layer1)
 
-#einlesen der Datei
-dateihandler = open('kurs.csv')
-#inhalt ist langer String
-inhalt = dateihandler.read()
-#tabelle ist leere liste
-kurs = []
-#in zeilen aufspalten
-zeilen = inhalt.split('\n')
-#spalten
-for i in range(len(zeilen)):
-    spalten = zeilen[i].split(',')
-    kurs.append(spalten)
+def readTable(name):
 
-print (kurs[0][1])
+    #einlesen der Datei
+    dateihandler = open(name)
+
+    #inhalt ist langer String
+    inhalt = dateihandler.read()
+
+    #tabelle ist leere liste
+    tabelle = []
+
+    #in zeilen aufspalten
+    zeilen = inhalt.split('\n')
+
+    #in spalten aufspalten
+    for i in range(len(zeilen)):
+        spalten = zeilen[i].split(',')
+        tabelle.append(spalten)
+
+    #Strings umwandeln in Real
+    for i in range(len(tabelle)-1):
+        for o in range(len(tabelle[0])):
+            tabelle[i][o] = float(tabelle[i][o])
+
+    #ausgebe
+    print(tabelle)
+    return(tabelle)
+
+kurs = []
+kurs = readTable("kurs.csv")
