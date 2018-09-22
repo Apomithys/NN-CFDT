@@ -1,3 +1,3 @@
 # NN-CFDT
 
-##(Neural Network for Contract For Difference Traiding)
+## Neural Network for Contract For Difference Traiding
