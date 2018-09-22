@@ -26,6 +26,8 @@
 # #ausgabe
 # print(layer1)
 
+money = 100
+
 def readTable(name):
 
     #einlesen der Datei
@@ -51,8 +53,16 @@ def readTable(name):
             tabelle[i][o] = float(tabelle[i][o])
 
     #ausgebe
-    print(tabelle)
+    #print(tabelle)
     return(tabelle)
+
+def gues(bit):
+    gues = float(input("gues: "))
+    money = money + gues*bit
+    print("you get: " + str(gues*bit))
+    print("You have now: " + str(money))
 
 kurs = []
 kurs = readTable("kurs.csv")
+
+gues(kurs[0][0])
