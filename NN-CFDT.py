@@ -1,32 +1,6 @@
-# #Status
-# print("start test.py")
-#
-# #Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
-# def matmult(MMlayer, MMweights, MMLfrom, MMLto):
-#     MMlayerOut = [0, 0]
-#     for i in range(0, MMLfrom):
-#         for o in range(0, MMLto):
-#             MMlayerOut[o] = MMlayerOut[o] + (MMlayer[i] * MMweights[o][i])
-#     return(MMlayerOut)
-#     #Status
-#     print("Matrixmultiplikation erfolgreich berechnet")
-#
-# #eingabe
-# a = int(input("0: "))
-# b = int(input("1: "))
-# c = int(input("2: "))
-# layer0 = [ a, b, c]
-#
-# #gewichtungen zwischen layer0 und layer1
-# weights0 = [3, 3, 3], [4, 4, 4]
-#
-# #Berechnung des asgabelayers
-# layer1 = matmult(layer0, weights0, 3, 2)
-#
-# #ausgabe
-# print(layer1)
 
-money = 100
+
+########################################################   Funktions
 
 #Einlesen der Tabelle
 def readTable(name):
@@ -64,13 +38,57 @@ def gues(bit, wette):
     winn = wette*bit
     return(winn)
 
+def seperateData(tabelle, t):
+    data = []
+    for i in t:
+        data[i][1] = tabelle[i][1]
+    return(data)
+
 #Einlesen der Tabelle "kurs.csv" als kurs
 kurs = []
 kurs = readTable("kurs.csv")
 
+
+
+########################################################   Network
+
+# #Status
+# print("start test.py")
+#
+# #Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
+# def matmult(MMlayer, MMweights, MMLfrom, MMLto):
+#     MMlayerOut = [0, 0]
+#     for i in range(0, MMLfrom):
+#         for o in range(0, MMLto):
+#             MMlayerOut[o] = MMlayerOut[o] + (MMlayer[i] * MMweights[o][i])
+#     return(MMlayerOut)
+#     #Status
+#     print("Matrixmultiplikation erfolgreich berechnet")
+#
+# #eingabe
+# a = int(input("0: "))
+# b = int(input("1: "))
+# c = int(input("2: "))
+# layer0 = [ a, b, c]
+#
+# #gewichtungen zwischen layer0 und layer1
+# weights0 = [3, 3, 3], [4, 4, 4]
+#
+# #Berechnung des asgabelayers
+# layer1 = matmult(layer0, weights0, 3, 2)
+#
+# #ausgabe
+# print(layer1)
+
+
+
+########################################################   Main part
+
+money = 100
+
 #Zeit
+time = 10
 for time in range(len(kurs)-1):
-    pass
     #Berechnung des wettabfalls
     wettabfall = gues(float(kurs[time][1]), 0)
     print(str(money) + " + " + str(wettabfall))
