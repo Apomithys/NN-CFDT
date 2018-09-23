@@ -28,6 +28,7 @@
 
 money = 100
 
+#Einlesen der Tabelle
 def readTable(name):
 
     #einlesen der Datei
@@ -56,13 +57,24 @@ def readTable(name):
     #print(tabelle)
     return(tabelle)
 
-def gues(bit):
-    gues = float(input("gues: "))
-    money = money + gues*bit
-    print("you get: " + str(gues*bit))
-    print("You have now: " + str(money))
+#Kurswette dass bit nach wette ausfällt
+def gues(bit, wette):
+    #folgene Zeile aukommentieren wenn NN benutzt wird, dann eingabe durch funktion
+    wette = float(input("gues: "))
+    winn = wette*bit
+    return(winn)
 
+#Einlesen der Tabelle "kurs.csv" als kurs
 kurs = []
 kurs = readTable("kurs.csv")
 
-gues(kurs[0][0])
+#Zeit
+for i in range(len(kurs)-1):
+    pass
+    #Berechnung des wettabfalls
+    wettabfall = gues(float(kurs[i][1]), 0)
+    print(str(money) + " + " + str(wettabfall))
+    #Anrechnug ans Konto
+    money = money + wettabfall
+    print("= " + str(money))
+    print()
