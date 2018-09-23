@@ -69,10 +69,10 @@ kurs = []
 kurs = readTable("kurs.csv")
 
 #Zeit
-for i in range(len(kurs)-1):
+for time in range(len(kurs)-1):
     pass
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[i][1]), 0)
+    wettabfall = gues(float(kurs[time][1]), 0)
     print(str(money) + " + " + str(wettabfall))
     #Anrechnug ans Konto
     money = money + wettabfall
