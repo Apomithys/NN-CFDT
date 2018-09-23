@@ -38,11 +38,14 @@ def gues(bit, wette):
     winn = wette*bit
     return(winn)
 
+#seperate the data für das Netztwerk als output
 def seperateData(tabelle, t):
-    data = []
+    data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    counter = 0
     for p in range(t-10, t):
-        print("extratime: " + str(p))
-        #data[p] = tabelle[p][1]
+        print(tabelle[p][1])
+        data[counter] = tabelle[p][1]
+        counter = counter + 1
     return(data)
 
 #Einlesen der Tabelle "kurs.csv" als kurs
@@ -53,9 +56,9 @@ kurs = readTable("kurs.csv")
 
 ########################################################   Network funktion
 
-# #Status
-# print("start test.py")
-#
+#Status
+print("start test.py")
+
 # #Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
 # def matmult(MMlayer, MMweights, MMLfrom, MMLto):
 #     MMlayerOut = [0, 0]
