@@ -40,8 +40,9 @@ def gues(bit, wette):
 
 def seperateData(tabelle, t):
     data = []
-    for i in t:
-        data[i][1] = tabelle[i][1]
+    for p in range(t-10, t):
+        print("extratime: " + str(p))
+        #data[p] = tabelle[p][1]
     return(data)
 
 #Einlesen der Tabelle "kurs.csv" als kurs
@@ -50,7 +51,7 @@ kurs = readTable("kurs.csv")
 
 
 
-########################################################   Network
+########################################################   Network funktion
 
 # #Status
 # print("start test.py")
@@ -87,8 +88,11 @@ kurs = readTable("kurs.csv")
 money = 100
 
 #Zeit
-time = 10
-for time in range(len(kurs)-1):
+time = 0
+for time in range(10, len(kurs)-1):
+    daten = []
+    daten = seperateData(kurs, time)
+    print("time: " + str(time))
     #Berechnung des wettabfalls
     wettabfall = gues(float(kurs[time][1]), 0)
     print(str(money) + " + " + str(wettabfall))
