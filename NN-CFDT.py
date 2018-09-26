@@ -88,7 +88,7 @@ print("start test.py")
 
 ########################################################   Main part
 
-money = 100
+money = 10
 
 #Zeit
 time = 0
