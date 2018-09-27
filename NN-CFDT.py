@@ -1,6 +1,8 @@
 
 import random
 
+import csv
+
 ########################################################   Funktions
 
 #Einlesen der Tabelle
@@ -53,16 +55,19 @@ def seperateData(tabelle, t):
 kurs = []
 kurs = readTable("kurs.csv")
 
-NN = []
-NN = readTable("NN.csv")
-
 resetNN = input("do you want to reset the NN? IF YOU DONT UNDERSTAND THIS QUESTION TYPE false:  ")
 if resetNN:
     print("reset started, pleas wait...")
-    for i in range(0, 10):
-        NN[i] = random.uniform(1.5, 1.9)
+    # for i in range(0, 10):
+    #     NN[i] = random.uniform(1.5, 1.9)
+    with open('NN.csv', 'w', newline='') as f:
+        theWriter = csv.writer(f)
+        for i in range(0,165):
+            theWriter.writerow([1])
 
-NN.csv = NN
+NN = []
+NN = readTable("NN.csv")
+
 
 ########################################################   Network funktion
 
@@ -80,13 +85,13 @@ def matmult(MMlayer, MMweights, MMLfrom, MMLto):
     print("Matrixmultiplikation erfolgreich berechnet")
 
 #eingabe
-a = int(input("0: "))
-b = int(input("1: "))
-c = int(input("2: "))
+a = float(input("1:   "))
+b = float(input("2:   "))
+c = float(input("3:   "))
 layer0 = [ a, b, c]
 
-#gewichtungen zwischen layer0 und layer1
-weights0 = [3, 3, 3], [4, 4, 4]
+#eingabe der Gewichtungen
+weights0 = [NN[0][0], NN[1][0], NN[2][0]], [NN[3][0], NN[4][0], NN[5][0]]
 
 #Berechnung des asgabelayers
 layer1 = matmult(layer0, weights0, 3, 2)
