@@ -1,4 +1,5 @@
 
+import random
 
 ########################################################   Funktions
 
@@ -52,37 +53,46 @@ def seperateData(tabelle, t):
 kurs = []
 kurs = readTable("kurs.csv")
 
+NN = []
+NN = readTable("NN.csv")
 
+resetNN = input("do you want to reset the NN? IF YOU DONT UNDERSTAND THIS QUESTION TYPE false:  ")
+if resetNN:
+    print("reset started, pleas wait...")
+    for i in range(0, 10):
+        NN[i] = random.uniform(1.5, 1.9)
+
+NN.csv = NN
 
 ########################################################   Network funktion
 
 #Status
 print("start test.py")
 
-# #Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
-# def matmult(MMlayer, MMweights, MMLfrom, MMLto):
-#     MMlayerOut = [0, 0]
-#     for i in range(0, MMLfrom):
-#         for o in range(0, MMLto):
-#             MMlayerOut[o] = MMlayerOut[o] + (MMlayer[i] * MMweights[o][i])
-#     return(MMlayerOut)
-#     #Status
-#     print("Matrixmultiplikation erfolgreich berechnet")
-#
-# #eingabe
-# a = int(input("0: "))
-# b = int(input("1: "))
-# c = int(input("2: "))
-# layer0 = [ a, b, c]
-#
-# #gewichtungen zwischen layer0 und layer1
-# weights0 = [3, 3, 3], [4, 4, 4]
-#
-# #Berechnung des asgabelayers
-# layer1 = matmult(layer0, weights0, 3, 2)
-#
-# #ausgabe
-# print(layer1)
+#Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
+def matmult(MMlayer, MMweights, MMLfrom, MMLto):
+    MMlayerOut = [0, 0]
+    for i in range(0, MMLfrom):
+        for o in range(0, MMLto):
+            MMlayerOut[o] = MMlayerOut[o] + (MMlayer[i] * MMweights[o][i])
+    return(MMlayerOut)
+    #Status
+    print("Matrixmultiplikation erfolgreich berechnet")
+
+#eingabe
+a = int(input("0: "))
+b = int(input("1: "))
+c = int(input("2: "))
+layer0 = [ a, b, c]
+
+#gewichtungen zwischen layer0 und layer1
+weights0 = [3, 3, 3], [4, 4, 4]
+
+#Berechnung des asgabelayers
+layer1 = matmult(layer0, weights0, 3, 2)
+
+#ausgabe
+print(layer1)
 
 
 
