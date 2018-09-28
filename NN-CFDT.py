@@ -3,7 +3,7 @@ import random
 
 import csv
 
-########################################################   Funktions
+########################################################    Funktions
 
 #Einlesen der Tabelle
 def readTable(name):
@@ -36,8 +36,6 @@ def readTable(name):
 
 #Kurswette dass bit nach wette ausfällt
 def gues(bit, wette):
-    #folgene Zeile aukommentieren wenn NN benutzt wird, dann eingabe durch funktion
-    wette = float(input("gues: "))
     winn = wette*bit
     return(winn)
 
@@ -55,53 +53,13 @@ def seperateData(tabelle, t):
 kurs = []
 kurs = readTable("kurs.csv")
 
-resetNN = input("do you want to reset the NN? IF YOU DONT UNDERSTAND THIS QUESTION TYPE false:  ")
-if resetNN:
-    print("reset started, pleas wait...")
-    # for i in range(0, 10):
-    #     NN[i] = random.uniform(1.5, 1.9)
-    with open('NN.csv', 'w', newline='') as f:
-        theWriter = csv.writer(f)
-        for i in range(0,165):
-            theWriter.writerow([1])
+########################################################    Network funktion
 
-NN = []
-NN = readTable("NN.csv")
+def NNrechner(layerIn):
+    layerOut = 100
+    return(layerOut)
 
-
-########################################################   Network funktion
-
-#Status
-print("start test.py")
-
-#Matrixmultiplikation layer * weights mit layer hat länge Lfron und gibt layerB mit Lto länge aus
-def matmult(MMlayer, MMweights, MMLfrom, MMLto):
-    MMlayerOut = [0, 0]
-    for i in range(0, MMLfrom):
-        for o in range(0, MMLto):
-            MMlayerOut[o] = MMlayerOut[o] + (MMlayer[i] * MMweights[o][i])
-    return(MMlayerOut)
-    #Status
-    print("Matrixmultiplikation erfolgreich berechnet")
-
-#eingabe
-a = float(input("1:   "))
-b = float(input("2:   "))
-c = float(input("3:   "))
-layer0 = [ a, b, c]
-
-#eingabe der Gewichtungen
-weights0 = [NN[0][0], NN[1][0], NN[2][0]], [NN[3][0], NN[4][0], NN[5][0]]
-
-#Berechnung des asgabelayers
-layer1 = matmult(layer0, weights0, 3, 2)
-
-#ausgabe
-print(layer1)
-
-
-
-########################################################   Main part
+########################################################    Main part
 
 money = 10
 
@@ -112,7 +70,7 @@ for time in range(10, len(kurs)-1):
     daten = seperateData(kurs, time)
     print("time: " + str(time))
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time][1]), 0)
+    wettabfall = gues(float(kurs[time][1]), NNrechner(daten))
     print(str(money) + " + " + str(wettabfall))
     #Anrechnug ans Konto
     money = money + wettabfall
