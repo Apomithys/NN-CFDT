@@ -53,10 +53,25 @@ def seperateData(tabelle, t):
 kurs = []
 kurs = readTable("kurs.csv")
 
+NN = []
+NN = readTable("NN.csv")
+
 ########################################################    Network funktion
 
-def NNrechner(layerIn):
-    layerOut = 100
+def NNrechner(layerIn, weightsIn):
+    layer0 = layerIn
+    weights0 = weightsIn
+    layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    layer3 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    layer4 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    for i in range(0,9):
+        layer1[i] = layer1[i] + (layer0[i] * weights0[0][i])
+
+    for i in range(0,9):
+        layer2[i] = layer2[i] + (layer1[i] * weights0[1][i])
+    layerOut = layer2[0]
     return(layerOut)
 
 ########################################################    Main part
@@ -70,7 +85,7 @@ for time in range(10, len(kurs)-1):
     daten = seperateData(kurs, time)
     print("time: " + str(time))
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time][1]), NNrechner(daten))
+    wettabfall = gues(float(kurs[time][1]), NNrechner(daten, NN))
     print(str(money) + " + " + str(wettabfall))
     #Anrechnug ans Konto
     money = money + wettabfall
