@@ -26,9 +26,9 @@ def readTable(name):
         tabelle.append(spalten)
 
     #Strings umwandeln in Real
-    for i in range(len(tabelle)-1):
-        for o in range(len(tabelle[0])):
-            tabelle[i][o] = float(tabelle[i][o])
+    for i in range(0, len(tabelle)):
+        for o in range(0, len(tabelle[i])):
+            tabelle[i][o] = tabelle[i][o]
 
     #ausgebe
     #print(tabelle)
@@ -62,7 +62,7 @@ def layermalweights(layerIn, NN, index):
     layerOut = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(0,9):
         for o in range(0,9):
-            layerOut[i] = layerOut[i] + (layerIn[i] * NN[o+index][i])
+            layerOut[i] = float(layerOut[i]) + (float(layerIn[i]) * float(NN[o+index][i]))
     return(layerOut)
 
 def NNrechner(layerIn, weightsIn):
