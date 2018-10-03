@@ -35,16 +35,16 @@ def readTable(name):
     return(tabelle)
 
 #Kurswette dass bit nach wette ausfällt
-def gues(bit, wette):
-    winn = wette*bit
-    return(winn)
+def gues(alt, neu, wette):
+    gewinn = 0
+    gewinn = gewinn + (neu - alt) * wette
+    return(gewinn)
 
 #seperate the data für das Netztwerk als output
 def seperateData(tabelle, t):
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     counter = 0
     for p in range(t-10, t):
-        print(tabelle[p][1])
         data[counter] = tabelle[p][1]
         counter = counter + 1
     return(data)
@@ -58,19 +58,24 @@ NN = readTable("NN.csv")
 
 ########################################################    Network funktion
 
+def layermalweights(layerIn, NN, index):
+    layerOut = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    for i in range(0,9):
+        for o in range(0,9):
+            layerOut[i] = layerOut[i] + (layerIn[i] * NN[o+index][i])
+    return(layerOut)
+
 def NNrechner(layerIn, weightsIn):
-    layer0 = layerIn
-    weights0 = weightsIn
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer3 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer4 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-    for i in range(0,9):
-        layer1[i] = layer1[i] + (layer0[i] * weights0[0][i])
+    layer1 = layermalweights(layerIn, weightsIn, 0)
+    layer2 = layermalweights(layer1, weightsIn, 10)
+    layer3 = layermalweights(layer2, weightsIn, 20)
+    layer4 = layermalweights(layer3, weightsIn, 30)
 
-    for i in range(0,9):
-        layer2[i] = layer2[i] + (layer1[i] * weights0[1][i])
     layerOut = layer2[0]
     return(layerOut)
 
@@ -85,7 +90,7 @@ for time in range(10, len(kurs)-1):
     daten = seperateData(kurs, time)
     print("time: " + str(time))
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time][1]), NNrechner(daten, NN))
+    wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
     print(str(money) + " + " + str(wettabfall))
     #Anrechnug ans Konto
     money = money + wettabfall
