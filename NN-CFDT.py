@@ -45,7 +45,7 @@ def seperateData(tabelle, t):
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     counter = 0
     for p in range(t-10, t):
-        data[counter] = tabelle[p][1]
+        data[counter] = tabelle[p][0]
         counter = counter + 1
     return(data)
 
@@ -88,6 +88,7 @@ time = 0
 for time in range(10, len(kurs)-1):
     daten = []
     daten = seperateData(kurs, time)
+    print(daten)
     print("time: " + str(time))
     #Berechnung des wettabfalls
     wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
