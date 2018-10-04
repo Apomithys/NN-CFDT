@@ -6,32 +6,9 @@ import csv
 
 #Einlesen der Tabelle
 def readTable(name):
-
-    #einlesen der Datei
-    dateihandler = open(name)
-
-    #inhalt ist langer String
-    inhalt = dateihandler.read()
-
-    #tabelle ist leere liste
-    tabelle = []
-
-    #in zeilen aufspalten
-    zeilen = inhalt.split('\n')
-
-    #in spalten aufspalten
-    for i in range(len(zeilen)):
-        spalten = zeilen[i].split(',')
-        tabelle.append(spalten)
-
-    #Strings umwandeln in Real
-    for i in range(0, len(tabelle)):
-        for o in range(0, len(tabelle[i])):
-            tabelle[i][o] = tabelle[i][o]
-
-    #ausgebe
-    #print(tabelle)
-    return(tabelle)
+    r = csv.reader(open(name))
+    lines = list(r)
+    return(lines)
 
 #wetten, dass nach neu
 def gues(alt, neu, wette):
@@ -50,11 +27,13 @@ def seperateData(tabelle, t):
 kurs = []
 kurs = readTable("kurs.csv")
 
+#Einlesender Tabelle "NN.csv" als NN
 NN = []
 NN = readTable("NN.csv")
 
 ########################################################    Network funktion
 
+#matrixmultiplikation speziell für NN-Gewichtungen
 def layermalweights(layerIn, NN, index):
     layerOut = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(0,9):
@@ -62,30 +41,38 @@ def layermalweights(layerIn, NN, index):
             layerOut[i] = layerOut[i] + (float(layerIn[i]) * float(NN[o+index][i]))
     return(layerOut)
 
+#Funktion mit einem Eingabelayer die einen Wert nach NN
 def NNrechner(layerIn, weightsIn):
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer3 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer4 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    layer5 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     layer1 = layermalweights(layerIn, weightsIn, 0)
     layer2 = layermalweights(layer1, weightsIn, 10)
     layer3 = layermalweights(layer2, weightsIn, 20)
     layer4 = layermalweights(layer3, weightsIn, 30)
+    layer5 = layermalweights(layer4, weightsIn, 40)
 
-    layerOut = layer2[0]
+    layerOut = layer5[0]
     return(layerOut)
 
 ########################################################    Main part
 
+#Konto mit Startgeld von 10$
 money = 10
 
 #Zeit
 time = 0
+
+#timelaps
 for time in range(10, len(kurs)-100):
-    #print("time: " + str(time))
+
+    #sichtbare Daten für das NN als Eingabelayer
     daten = []
     daten = seperateData(kurs, time)
+
     #Berechnung des wettabfalls
     wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
     #Anrechnug ans Konto
