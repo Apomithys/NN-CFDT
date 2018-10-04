@@ -1,6 +1,5 @@
-
+#import stuff
 import random
-
 import csv
 
 ########################################################    Funktions
@@ -34,11 +33,9 @@ def readTable(name):
     #print(tabelle)
     return(tabelle)
 
-#Kurswette dass bit nach wette ausfällt
+#wetten, dass nach neu
 def gues(alt, neu, wette):
-    gewinn = 0
-    gewinn = gewinn + (neu - alt) * wette
-    return(gewinn)
+    return((neu - alt) * wette)
 
 #seperate the data für das Netztwerk als output
 def seperateData(tabelle, t):
@@ -62,7 +59,7 @@ def layermalweights(layerIn, NN, index):
     layerOut = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(0,9):
         for o in range(0,9):
-            layerOut[i] = float(layerOut[i]) + (float(layerIn[i]) * float(NN[o+index][i]))
+            layerOut[i] = layerOut[i] + (float(layerIn[i]) * float(NN[o+index][i]))
     return(layerOut)
 
 def NNrechner(layerIn, weightsIn):
@@ -85,15 +82,12 @@ money = 10
 
 #Zeit
 time = 0
-for time in range(10, len(kurs)-1):
+for time in range(10, len(kurs)-100):
+    #print("time: " + str(time))
     daten = []
     daten = seperateData(kurs, time)
-    print(daten)
-    print("time: " + str(time))
     #Berechnung des wettabfalls
     wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
-    print(str(money) + " + " + str(wettabfall))
     #Anrechnug ans Konto
     money = money + wettabfall
-    print("= " + str(money))
-    print()
+    print(money)
