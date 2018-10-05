@@ -1,5 +1,6 @@
 #import stuff
 import random
+from random import randint
 import csv
 
 ########################################################    Funktions
@@ -43,6 +44,7 @@ def layermalweights(layerIn, NN, index):
 
 #Funktion mit einem Eingabelayer die einen Wert nach NN
 def NNrechner(layerIn, weightsIn):
+    #kann man das auch als for schleife machen ???
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer3 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -55,7 +57,9 @@ def NNrechner(layerIn, weightsIn):
     layer4 = layermalweights(layer3, weightsIn, 30)
     layer5 = layermalweights(layer4, weightsIn, 40)
 
-    layerOut = layer5[0]
+    layerOut = 0
+    for i in range(0, len(layer5)):
+        layerOut = layerOut + layer5[i]
     return(layerOut)
 
 ########################################################    Main part
@@ -66,8 +70,11 @@ money = 10
 #Zeit
 time = 0
 
+#zum Beobachten
+gesamt = 0
+
 #timelaps
-for time in range(10, len(kurs)-100):
+for time in range(10, len(kurs)-1):
 
     #sichtbare Daten für das NN als Eingabelayer
     daten = []
@@ -77,4 +84,21 @@ for time in range(10, len(kurs)-100):
     wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
     #Anrechnug ans Konto
     money = money + wettabfall
-    print(money)
+    #anrechnen an gesamtgewinn
+    gesamt = gesamt + wettabfall
+
+    #Lernen
+    #Hier müssen jetzt änderungen an der Tabelle NN getätgt werden
+    #
+    #
+    #
+    #Platz zum Lernen
+    #
+    #
+    #
+        
+#die Änderungen von NN werden als .csv gespeichert
+writer = csv.writer(open('NN.csv', 'w', newline=''))
+writer.writerows(NN)
+
+print(money)
