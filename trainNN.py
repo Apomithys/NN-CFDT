@@ -11,10 +11,6 @@ def readTable(name):
     lines = list(r)
     return(lines)
 
-#wetten, dass nach neu
-def gues(alt, neu, wette):
-    return((neu - alt) * wette)
-
 #seperate the data für das Netztwerk als output
 def seperateData(tabelle, t):
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -23,6 +19,10 @@ def seperateData(tabelle, t):
         data[counter] = tabelle[p][0]
         counter = counter + 1
     return(data)
+
+#wetten, dass nach neu
+def gues(alt, neu, wette):
+    return((neu - alt) * wette)
 
 #Einlesen der Tabelle "kurs.csv" als kurs
 kurs = []
@@ -74,12 +74,35 @@ for time in range(10, len(kurs)-1):
     daten = []
     daten = seperateData(kurs, time)
 
-    #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
-    #Anrechnug ans Konto
-    money = money + wettabfall
-    #anrechnen an gesamtgewinn
-    gesamt = gesamt + wettabfall
+    #Berechnung der Vorausagung
+    voraussagung = NNrechner(daten, NN)
+    #Berechnung des gewinns
+    gewinn = gues(float(kurs[time-1][0]), float(kurs[time][0]), voraussagung)
+
+    if gewinn < 0:
+        #Bestimmen des Neurons per zufall
+        x = randint(0, len(NN)-1)
+        y = randint(0, len(NN[x])-1)
+
+        #sichern damit nichts kaputt geht
+        save = 0
+        save = NN[x][y]
+
+        #change
+        NN[x][y] = -(float(NN[x][y]))
+
+        #neue Voraussagung treffen
+        nvoraussagung = NNrechner(daten, NN)
+        #neuen Gewinn berechnen
+        ngewinn = gues(float(kurs[time-1][0]), float(kurs[time][0]), voraussagung)
+
+        #wenn es sich nich gebessert hat
+        if gewinn > ngewinn:
+            #zurücknehmen
+            NN[x][y] = save
+
+
+
         
 #die Änderungen von NN werden als .csv gespeichert
 writer = csv.writer(open('NN.csv', 'w', newline=''))
