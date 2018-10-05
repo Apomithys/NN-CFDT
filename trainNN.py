@@ -21,8 +21,8 @@ def seperateData(tabelle, t):
     return(data)
 
 #wetten, dass nach neu
-def gues(alt, neu, wette):
-    return((neu - alt) * wette)
+def gues(neu, wette):
+    return(neu * wette)
 
 #Einlesen der Tabelle "kurs.csv" als kurs
 kurs = []
@@ -84,7 +84,7 @@ for i in range(0, counter):
         #Berechnung der Vorausagung
         voraussagung = NNrechner(daten, NN)
         #Berechnung des gewinns
-        gewinn = gues(float(kurs[time-1][0]), float(kurs[time][0]), voraussagung)
+        gewinn = gues(float(kurs[time][0]), voraussagung)
 
         gesamt = gesamt + gewinn
 
@@ -114,7 +114,7 @@ for i in range(0, counter):
         #Berechnung der Vorausagung
         nvoraussagung = NNrechner(daten, NN)
         #Berechnung des gewinns
-        ngewinn = gues(float(kurs[time-1][0]), float(kurs[time][0]), nvoraussagung)
+        ngewinn = gues(float(kurs[time][0]), nvoraussagung)
 
         ngesamt = ngesamt + ngewinn
 

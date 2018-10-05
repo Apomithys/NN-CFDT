@@ -12,8 +12,8 @@ def readTable(name):
     return(lines)
 
 #wetten, dass nach neu
-def gues(alt, neu, wette):
-    return((neu - alt) * wette)
+def gues(neu, wette):
+    return(neu * wette)
 
 #seperate the data für das Netztwerk als output
 def seperateData(tabelle, t):
@@ -80,7 +80,7 @@ for time in range(10, len(kurs)-1):
     #Berechnung der Voraussage
     voraussage = NNrechner(daten, NN)
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), voraussage)
+    wettabfall = gues(float(kurs[time][0]), voraussage)
     #anrechnen an gesamtgewinn
     gesamt = gesamt + wettabfall
 
