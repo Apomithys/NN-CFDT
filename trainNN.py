@@ -84,10 +84,12 @@ for i in range(0, counter):
         #Berechnung der Vorausagung
         voraussagung = NNrechner(daten, NN)
         #Berechnung des gewinns
-        gewinn = gues(float(kurs[time][0]), voraussagung)
+        gewinn = gues(float(kurs[time-11][0]), voraussagung)
 
         gesamt = gesamt + gewinn
-
+        # print(daten)
+        # print(str(gewinn) + " = " + str(kurs[time-10][0]) + " * " + str(voraussagung))
+        # print()
 
     #Bestimmen des Neurons per zufall
     x = randint(0, len(NN)-1)
@@ -114,9 +116,13 @@ for i in range(0, counter):
         #Berechnung der Vorausagung
         nvoraussagung = NNrechner(daten, NN)
         #Berechnung des gewinns
-        ngewinn = gues(float(kurs[time][0]), nvoraussagung)
+        ngewinn = gues(float(kurs[time-10][0]), nvoraussagung)
 
         ngesamt = ngesamt + ngewinn
+        
+        # print(daten)
+        # print(str(ngewinn) + " = " + str(kurs[time-11][0]) + " * " + str(nvoraussagung))
+        # print()
 
     #wenn es sich nich gebessert hat
     if gesamt > ngesamt:

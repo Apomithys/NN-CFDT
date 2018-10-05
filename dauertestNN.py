@@ -71,18 +71,20 @@ time = 0
 gesamt = 0
 
 #timelaps
-for time in range(10, len(kurs)-1):
+for time in range(len(kurs)-1, 10, -1):
 
     #sichtbare Daten für das NN als Eingabelayer
     daten = []
     daten = seperateData(kurs, time)
-
+    print(daten)
     #Berechnung der Voraussage
     voraussage = NNrechner(daten, NN)
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time][0]), voraussage)
+    wettabfall = gues(float(kurs[time-11][0]), voraussage)
     #anrechnen an gesamtgewinn
     gesamt = gesamt + wettabfall
 
     #hier kann ausgegeben werden wass du willst (wettabfall/gesamt/voraussage)
-    print(str(wettabfall) + "$")
+    print(str(wettabfall) + " = " + str(voraussage) + " * " + str(kurs[time-10][0]))
+    print("all: " + str(gesamt))
+    print()
