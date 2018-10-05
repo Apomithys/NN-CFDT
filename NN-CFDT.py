@@ -61,7 +61,7 @@ def NNrechner(layerIn, weightsIn):
 ########################################################    Main part
 
 #Zeit
-time = 10
+time = int(input("for which time (10 for latest): "))
 
 #sichtbare Daten für das NN als Eingabelayer
 daten = []

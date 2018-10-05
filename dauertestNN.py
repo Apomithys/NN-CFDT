@@ -77,8 +77,10 @@ for time in range(10, len(kurs)-1):
     daten = []
     daten = seperateData(kurs, time)
 
+    #Berechnung der Voraussage
+    voraussage = NNrechner(daten, NN)
     #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
+    wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), voraussage)
     #anrechnen an gesamtgewinn
     gesamt = gesamt + wettabfall
 
@@ -91,4 +93,4 @@ for time in range(10, len(kurs)-1):
     #
     #
     #
-    print(str(gesamt) + "$")
+    print(str(wettabfall) + "$")
