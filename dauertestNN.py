@@ -84,13 +84,5 @@ for time in range(10, len(kurs)-1):
     #anrechnen an gesamtgewinn
     gesamt = gesamt + wettabfall
 
-    #Lernen
-    #Hier müssen jetzt änderungen an der Tabelle NN getätgt werden
-    #
-    #
-    #
-    #Platz zum Lernen
-    #
-    #
-    #
+    #hier kann ausgegeben werden wass du willst (wettabfall/gesamt/voraussage)
     print(str(wettabfall) + "$")
