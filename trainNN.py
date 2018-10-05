@@ -122,7 +122,7 @@ for i in range(0, counter):
     else:
         changes = changes + 1
 
-print(str(i) + " von " + str(counter) + " jahren trainiert!")
+    print(str(i) + " von " + str(counter) + " jahren trainiert!")
 
 #die Änderungen von NN werden als .csv gespeichert
 writer = csv.writer(open('NN.csv', 'w', newline=''))
