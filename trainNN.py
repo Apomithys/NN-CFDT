@@ -68,42 +68,62 @@ counter = int(input("how long: "))
 changes = 0
 
 for i in range(0, counter):
-    for time in range(10, len(kurs)-1):
+    #Zeit
+    time = 0
+    gesamt = 0
+    #timelaps
+    for time in range(len(kurs)-1, 10, -1):
 
         #sichtbare Daten für das NN als Eingabelayer
         daten = []
         daten = seperateData(kurs, time)
+
         #Berechnung der Vorausagung
         voraussagung = NNrechner(daten, NN)
         #Berechnung des gewinns
         gewinn = gues(float(kurs[time-1][0]), float(kurs[time][0]), voraussagung)
 
-        #Bestimmen des Neurons per zufall
-        x = randint(0, len(NN)-1)
-        y = randint(0, len(NN[x])-1)
+        gesamt = gesamt + gewinn
 
-        #versichern damit nichts kaputt geht
-        save = 0
-        save = NN[x][y]
 
-        #change
-        NN[x][y] = random.uniform(-0.1, 0.1)
+    #Bestimmen des Neurons per zufall
+    x = randint(0, len(NN)-1)
+    y = randint(0, len(NN[x])-1)
 
-        #Berechnung der neuen Vorausagung
+    #sichern damit nichts kaputt geht
+    save = 0
+    save = NN[x][y]
+
+    #change
+    NN[x][y] = random.uniform(-0.1, 0.1)
+
+
+    #Zeit
+    time = 0
+    ngesamt = 0
+    #timelaps
+    for time in range(len(kurs)-1, 10, -1):
+
+        #sichtbare Daten für das NN als Eingabelayer
+        daten = []
+        daten = seperateData(kurs, time)
+
+        #Berechnung der Vorausagung
         nvoraussagung = NNrechner(daten, NN)
-        #Berechnung des neuen Gewinns
+        #Berechnung des gewinns
         ngewinn = gues(float(kurs[time-1][0]), float(kurs[time][0]), nvoraussagung)
 
-        #wenn es sich nich gebessert hat
-        if gewinn > ngewinn:
-            #zurücknehmen
-            NN[x][y] = save
-        else:
-            changes = changes + 1
+        ngesamt = ngesamt + ngewinn
 
-    #statusausgabe
+    #wenn es sich nich gebessert hat
+    if gesamt > ngesamt:
+        #zurücknehmen
+        NN[x][y] = save
+    else:
+        changes = changes + 1
+
     print(str(i) + " von " + str(counter) + " jahren trainiert!")
-    
+
     #die Änderungen von NN werden als .csv gespeichert
     writer = csv.writer(open('NN.csv', 'w', newline=''))
     writer.writerows(NN)
