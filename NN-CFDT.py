@@ -11,10 +11,6 @@ def readTable(name):
     lines = list(r)
     return(lines)
 
-#wetten, dass nach neu
-def gues(alt, neu, wette):
-    return((neu - alt) * wette)
-
 #seperate the data für das Netztwerk als output
 def seperateData(tabelle, t):
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -64,41 +60,14 @@ def NNrechner(layerIn, weightsIn):
 
 ########################################################    Main part
 
-#Konto mit Startgeld von 10$
-money = 10
-
 #Zeit
-time = 0
+time = len(kurs)
 
-#zum Beobachten
-gesamt = 0
+#sichtbare Daten für das NN als Eingabelayer
+daten = []
+daten = seperateData(kurs, time)
+print(daten)
 
-#timelaps
-for time in range(10, len(kurs)-1):
-
-    #sichtbare Daten für das NN als Eingabelayer
-    daten = []
-    daten = seperateData(kurs, time)
-
-    #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time-1][0]), float(kurs[time][0]), NNrechner(daten, NN))
-    #Anrechnug ans Konto
-    money = money + wettabfall
-    #anrechnen an gesamtgewinn
-    gesamt = gesamt + wettabfall
-
-    #Lernen
-    #Hier müssen jetzt änderungen an der Tabelle NN getätgt werden
-    #
-    #
-    #
-    #Platz zum Lernen
-    #
-    #
-    #
-        
-#die Änderungen von NN werden als .csv gespeichert
-writer = csv.writer(open('NN.csv', 'w', newline=''))
-writer.writerows(NN)
-
-print(money)
+#Berechnung des wettabfalls
+einsatzvor = NNrechner(daten, NN)
+print("you should bet: " + str(einsatzvor))
