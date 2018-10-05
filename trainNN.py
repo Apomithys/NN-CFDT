@@ -68,6 +68,9 @@ counter = int(input("how long: "))
 changes = 0
 
 for i in range(0, counter):
+    if counter == 777888999:
+        i = 0
+
     #Zeit
     time = 0
     gesamt = 0
@@ -122,7 +125,7 @@ for i in range(0, counter):
     else:
         changes = changes + 1
 
-    print(str(i) + " von " + str(counter) + " jahren trainiert!")
+    print(str(i) + " von " + str(counter) + " jahren trainiert and learnd " + str(changes) + " things")
 
     #die Änderungen von NN werden als .csv gespeichert
     writer = csv.writer(open('NN.csv', 'w', newline=''))
