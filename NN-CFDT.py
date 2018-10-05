@@ -61,7 +61,7 @@ def NNrechner(layerIn, weightsIn):
 ########################################################    Main part
 
 #Zeit
-time = len(kurs)
+time = 10
 
 #sichtbare Daten für das NN als Eingabelayer
 daten = []

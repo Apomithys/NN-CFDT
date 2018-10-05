@@ -91,4 +91,4 @@ for time in range(10, len(kurs)-1):
     #
     #
     #
-print(str(gesamt) + "$ Verdient")
+    print(str(gesamt) + "$")
