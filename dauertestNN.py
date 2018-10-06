@@ -76,7 +76,8 @@ for time in range(len(kurs)-1, 10, -1):
     #sichtbare Daten für das NN als Eingabelayer
     daten = []
     daten = seperateData(kurs, time)
-    print(daten)
+    #print(daten)
+    
     #Berechnung der Voraussage
     voraussage = NNrechner(daten, NN)
     #Berechnung des wettabfalls
@@ -85,6 +86,6 @@ for time in range(len(kurs)-1, 10, -1):
     gesamt = gesamt + wettabfall
 
     #hier kann ausgegeben werden wass du willst (wettabfall/gesamt/voraussage)
-    print(str(wettabfall) + " = " + str(voraussage) + " * " + str(kurs[time-10][0]))
-    print("all: " + str(gesamt))
+    print(str(voraussage) + " * " + str(kurs[time-10][0]) + " = " + str(wettabfall))
+    print("gesamt: " + str(gesamt))
     print()
