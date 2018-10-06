@@ -104,7 +104,7 @@ for count in range(0, counter):
         #wenn es noch nicht besser ist
         for i in range(0, 10):
             #ändere das ausgewählte Neuron
-            NN[x][y] = random.uniform(-0.1, 0.1)
+            NN[x][y] = -(float(NN[x][y]))
 
             #Berechnung der Vorausagung
             nvoraussagung = NNrechner(daten, NN)

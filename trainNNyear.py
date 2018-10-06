@@ -101,41 +101,42 @@ for count in range(0, counter):
     #better auf Fals setzen
     better = False
 
+    for i in range(0, 10):
         #aber nur wenn es noch schlechter ist
-    while better == False:
-        #change
-        NN[x][y] = random.uniform(-0.1, 0.1)
+        if better == False:
+            #change
+            NN[x][y] = random.uniform(-0.1, 0.1)
 
-        #Zeit
-        time = 0
-        ngesamt = 0
-        #ngesammt berechnen
-        for time in range(len(kurs)-1, 10, -1):
+            #Zeit
+            time = 0
+            ngesamt = 0
+            #ngesammt berechnen
+            for time in range(len(kurs)-1, 10, -1):
 
-            #sichtbare Daten für das NN als Eingabelayer
-            daten = []
-            daten = seperateData(kurs, time)
+                #sichtbare Daten für das NN als Eingabelayer
+                daten = []
+                daten = seperateData(kurs, time)
 
-            #Berechnung der Vorausagung
-            nvoraussagung = NNrechner(daten, NN)
-            #Berechnung des gewinns
-            ngewinn = gues(float(kurs[time-11][0]), nvoraussagung)
-            ngesamt = ngesamt + ngewinn
+                #Berechnung der Vorausagung
+                nvoraussagung = NNrechner(daten, NN)
+                #Berechnung des gewinns
+                ngewinn = gues(float(kurs[time-11][0]), nvoraussagung)
+                ngesamt = ngesamt + ngewinn
 
-        #gucken ob gebessert hat
-        better = (ngesamt > gesamt)
+            #gucken ob gebessert hat
+            better = (ngesamt > gesamt)
 
-    #wenn es besser geworden ist
-    if better == True:
-        #addiere einen change dazu
-        changes = changes+1
-    #wenn am ende der 10 runden es immernoch schlecht ist
-    if better == False:
-        #nimm das gesicherte
-        NN[x][y] = save
+        #wenn es besser geworden ist
+        if better == True:
+            #addiere einen change dazu
+            changes = changes+1
+        #wenn am ende der 10 runden es immernoch schlecht ist
+        if better == False:
+            #nimm das gesicherte
+            NN[x][y] = save
 
     print("it learned: " + str(better))
-
+    
     #die Änderungen von NN werden als .csv gespeichert
     writer = csv.writer(open('NN.csv', 'w', newline=''))
     writer.writerows(NN)
