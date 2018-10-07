@@ -56,14 +56,16 @@ def NNrechner(layerIn, weightsIn):
 
 ########################################################    Main part
 
-def dauertestNN():
+def dauertestNN(nameKurs, nameNN):
+    print("start 'dauertestNN'")
+
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
-    kurs = readTable(str(input("coursetable: ")))
+    kurs = readTable(str(nameKurs))
 
     #Einlesender Tabelle "NN.csv" als NN
     NN = []
-    NN = readTable(str(input("Neural Network: ")))
+    NN = readTable(str(nameNN))
 
     #Zeit
     time = 0
@@ -90,5 +92,3 @@ def dauertestNN():
         print(str(voraussage) + " * " + str(kurs[time-11][0]) + " = " + str(wettabfall))
         print("gesamt: " + str(gesamt))
         print()
-
-dauertestNN()

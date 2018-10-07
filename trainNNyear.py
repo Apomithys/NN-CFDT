@@ -139,5 +139,3 @@ def trainNNyear():
         writer.writerows(NN)
 
     print(str(changes) + " changes made")
-
-trainNNyear()

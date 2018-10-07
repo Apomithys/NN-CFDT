@@ -55,14 +55,16 @@ def NNrechner(layerIn, weightsIn):
     return(layerOut)
 
 ########################################################    Main part
-def trainNNday():
+def trainNNday(nameKurs, nameNN):
+    print("start 'trainNNday'")
+
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
-    kurs = readTable(str(input("coursetable: ")))
+    kurs = readTable(str(nameKurs))
 
     #Einlesender Tabelle "NN.csv" als NN
     NN = []
-    NN = readTable(str(input("Neural Network: ")))
+    NN = readTable(str(nameNN))
 
     counter = int(input("how long: "))
     changes = 0
@@ -126,5 +128,3 @@ def trainNNday():
     writer.writerows(NN)
 
     print(str(maxchanges) + " changes made")
-
-trainNNday()
