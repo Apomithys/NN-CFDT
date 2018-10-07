@@ -24,14 +24,6 @@ def seperateData(tabelle, t):
         counter = counter + 1
     return(data)
 
-#Einlesen der Tabelle "kurs.csv" als kurs
-kurs = []
-kurs = readTable("kurs.csv")
-
-#Einlesender Tabelle "NN.csv" als NN
-NN = []
-NN = readTable("NN.csv")
-
 ########################################################    Network funktion
 
 #matrixmultiplikation speziell für NN-Gewichtungen
@@ -64,28 +56,39 @@ def NNrechner(layerIn, weightsIn):
 
 ########################################################    Main part
 
-#Zeit
-time = 0
+def dauertestNN():
+    #Einlesen der Tabelle "kurs.csv" als kurs
+    kurs = []
+    kurs = readTable(str(input("coursetable: ")))
 
-#zum Beobachten
-gesamt = 0
+    #Einlesender Tabelle "NN.csv" als NN
+    NN = []
+    NN = readTable(str(input("Neural Network: ")))
 
-#timelaps
-for time in range(len(kurs)-1, 10, -1):
+    #Zeit
+    time = 0
 
-    #sichtbare Daten für das NN als Eingabelayer
-    daten = []
-    daten = seperateData(kurs, time)
-    #print(daten)
-    
-    #Berechnung der Voraussage
-    voraussage = NNrechner(daten, NN)
-    #Berechnung des wettabfalls
-    wettabfall = gues(float(kurs[time-11][0]), voraussage)
-    #anrechnen an gesamtgewinn
-    gesamt = gesamt + wettabfall
+    #zum Beobachten
+    gesamt = 0
 
-    #hier kann ausgegeben werden wass du willst (wettabfall/gesamt/voraussage)
-    print(str(voraussage) + " * " + str(kurs[time-10][0]) + " = " + str(wettabfall))
-    print("gesamt: " + str(gesamt))
-    print()
+    #timelaps
+    for time in range(len(kurs)-1, 10, -1):
+
+        #sichtbare Daten für das NN als Eingabelayer
+        daten = []
+        daten = seperateData(kurs, time)
+        #print(daten)
+        
+        #Berechnung der Voraussage
+        voraussage = NNrechner(daten, NN)
+        #Berechnung des wettabfalls
+        wettabfall = gues(float(kurs[time-11][0]), voraussage)
+        #anrechnen an gesamtgewinn
+        gesamt = gesamt + wettabfall
+
+        #hier kann ausgegeben werden wass du willst (wettabfall/gesamt/voraussage)
+        print(str(voraussage) + " * " + str(kurs[time-11][0]) + " = " + str(wettabfall))
+        print("gesamt: " + str(gesamt))
+        print()
+
+dauertestNN()

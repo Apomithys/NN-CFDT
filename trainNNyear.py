@@ -24,14 +24,6 @@ def seperateData(tabelle, t):
 def gues(neu, wette):
     return(neu * wette)
 
-#Einlesen der Tabelle "kurs.csv" als kurs
-kurs = []
-kurs = readTable("kurs.csv")
-
-#Einlesender Tabelle "NN.csv" als NN
-NN = []
-NN = readTable("NN.csv")
-
 ########################################################    Network funktion
 
 #matrixmultiplikation speziell für NN-Gewichtungen
@@ -63,82 +55,89 @@ def NNrechner(layerIn, weightsIn):
     return(layerOut)
 
 ########################################################    Main part
+def trainNNyear():
+    #Einlesen der Tabelle "kurs.csv" als kurs
+    kurs = []
+    kurs = readTable(str(input("coursetable: ")))
 
-counter = int(input("how long: "))
-changes = 0
+    #Einlesender Tabelle "NN.csv" als NN
+    NN = []
+    NN = readTable(str(input("Neural Network: ")))
 
-#wiedeholung bis counter
-for count in range(0, counter):
-    if counter == 777888999:
-        i = 0
+    counter = int(input("how long: "))
+    changes = 0
+
+    #wiedeholung bis counter
+    for count in range(0, counter):
+        if counter == 777888999:
+            i = 0
 
 
-    #Zeit
-    time = 0
-    gesamt = 0
-    #gesammt berechnen
-    for time in range(len(kurs)-1, 10, -1):
+        #Zeit
+        time = 0
+        gesamt = 0
+        #gesammt berechnen
+        for time in range(len(kurs)-1, 10, -1):
 
-        #sichtbare Daten für das NN als Eingabelayer
-        daten = []
-        daten = seperateData(kurs, time)
+            #sichtbare Daten für das NN als Eingabelayer
+            daten = []
+            daten = seperateData(kurs, time)
 
-        #Berechnung der Vorausagung
-        voraussagung = NNrechner(daten, NN)
-        #Berechnung des gewinns
-        gewinn = gues(float(kurs[time-11][0]), voraussagung)
+            #Berechnung der Vorausagung
+            voraussagung = NNrechner(daten, NN)
+            #Berechnung des gewinns
+            gewinn = gues(float(kurs[time-11][0]), voraussagung)
 
-        gesamt = gesamt + gewinn
+            gesamt = gesamt + gewinn
 
-    #Bestimmen des Neurons per zufall
-    x = randint(0, len(NN)-1)
-    y = randint(0, len(NN[x])-1)
+        #Bestimmen des Neurons per zufall
+        x = randint(0, len(NN)-1)
+        y = randint(0, len(NN[x])-1)
 
-    #sichern damit nichts kaputt geht
-    save = 0
-    save = NN[x][y]
+        #sichern damit nichts kaputt geht
+        save = 0
+        save = NN[x][y]
 
-    #better auf Fals setzen
-    better = False
+        #better auf Fals setzen
+        better = False
 
-    for i in range(0, 10):
-        #aber nur wenn es noch schlechter ist
-        if better == False:
-            #change
-            NN[x][y] = random.uniform(-0.1, 0.1)
+        #change
+        NN[x][y] = -float(NN[x][y])
 
-            #Zeit
-            time = 0
-            ngesamt = 0
-            #ngesammt berechnen
-            for time in range(len(kurs)-1, 10, -1):
+        #Zeit
+        time = 0
+        ngesamt = 0
+        #ngesammt berechnen
+        for time in range(len(kurs)-1, 10, -1):
 
-                #sichtbare Daten für das NN als Eingabelayer
-                daten = []
-                daten = seperateData(kurs, time)
+            #sichtbare Daten für das NN als Eingabelayer
+            daten = []
+            daten = seperateData(kurs, time)
 
-                #Berechnung der Vorausagung
-                nvoraussagung = NNrechner(daten, NN)
-                #Berechnung des gewinns
-                ngewinn = gues(float(kurs[time-11][0]), nvoraussagung)
-                ngesamt = ngesamt + ngewinn
+            #Berechnung der Vorausagung
+            nvoraussagung = NNrechner(daten, NN)
+            #Berechnung des gewinns
+            ngewinn = gues(float(kurs[time-11][0]), nvoraussagung)
+            ngesamt = ngesamt + ngewinn
 
-            #gucken ob gebessert hat
-            better = (ngesamt > gesamt)
+        #gucken ob gebessert hat
+        better = (ngesamt > gesamt)
 
         #wenn es besser geworden ist
         if better == True:
             #addiere einen change dazu
             changes = changes+1
-        #wenn am ende der 10 runden es immernoch schlecht ist
+        #wenn es immernoch schlecht ist
         if better == False:
             #nimm das gesicherte
             NN[x][y] = save
 
-    print("it learned: " + str(better))
-    
-    #die Änderungen von NN werden als .csv gespeichert
-    writer = csv.writer(open('NN.csv', 'w', newline=''))
-    writer.writerows(NN)
+        print("it learned something: " + str(better))
+        
+        #die Änderungen von NN werden als .csv gespeichert
+        writer = csv.writer(open('NN.csv', 'w', newline=''))
+        writer.writerows(NN)
 
-print(str(changes) + " changes made")
+    print(str(changes) + " changes made")
+
+trainNNyear()

@@ -71,3 +71,5 @@ def triffVoraussage():
     #Berechnung des wettabfalls
     einsatzvor = NNrechner(daten, NN)
     print("you should bet: " + str(einsatzvor))
+
+triffVoraussage()

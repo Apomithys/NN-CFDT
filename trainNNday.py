@@ -24,14 +24,6 @@ def seperateData(tabelle, t):
 def gues(neu, wette):
     return(neu * wette)
 
-#Einlesen der Tabelle "kurs.csv" als kurs
-kurs = []
-kurs = readTable("kurs.csv")
-
-#Einlesender Tabelle "NN.csv" als NN
-NN = []
-NN = readTable("NN.csv")
-
 ########################################################    Network funktion
 
 #matrixmultiplikation speziell für NN-Gewichtungen
@@ -63,46 +55,51 @@ def NNrechner(layerIn, weightsIn):
     return(layerOut)
 
 ########################################################    Main part
+def trainNNday():
+    #Einlesen der Tabelle "kurs.csv" als kurs
+    kurs = []
+    kurs = readTable(str(input("coursetable: ")))
 
-counter = int(input("how long: "))
-changes = 0
-maxchanges = 0
+    #Einlesender Tabelle "NN.csv" als NN
+    NN = []
+    NN = readTable(str(input("Neural Network: ")))
 
-#timelaps
-for count in range(0, counter):
-    if counter == 777888999:
-        i = 0
+    counter = int(input("how long: "))
+    changes = 0
+    maxchanges = 0
+    
+    #timelaps
+    for count in range(0, counter):
+        if counter == 777888999:
+            count = 0
 
 
-    #Zeit
-    time = 0
+        #Zeit
+        time = 0
 
-    for time in range(0, len(kurs)-1):
-        
-        #sichtbare Daten für das NN als Eingabelayer
-        daten = []
-        daten = seperateData(kurs, time)
-        
-        #Berechnung der Vorausagung
-        voraussagung = NNrechner(daten, NN)
-        
-        #Berechnung des gewinns
-        gewinn = gues(float(kurs[time-11][0]), voraussagung)
+        for time in range(0, len(kurs)-1):
+            
+            #sichtbare Daten für das NN als Eingabelayer
+            daten = []
+            daten = seperateData(kurs, time)
+            
+            #Berechnung der Vorausagung
+            voraussagung = NNrechner(daten, NN)
+            
+            #Berechnung des gewinns
+            gewinn = gues(float(kurs[time-11][0]), voraussagung)
 
-        #Bestimmen des Neurons per zufall
-        x = randint(0, len(NN)-1)
-        y = randint(0, len(NN[x])-1)
+            #Bestimmen des Neurons per zufall
+            x = randint(0, len(NN)-1)
+            y = randint(0, len(NN[x])-1)
 
-        #sichern damit nichts kaputt geht
-        save = 0
-        save = NN[x][y]
+            #sichern damit nichts kaputt geht
+            save = 0
+            save = NN[x][y]
 
-        #erstmal davon ausgehen dass es schlecht ist
-        better = False
-        o = 0
+            #erstmal davon ausgehen dass es schlecht ist
+            better = False
 
-        #wenn es noch nicht besser ist
-        for i in range(0, 10):
             #ändere das ausgewählte Neuron
             NN[x][y] = -(float(NN[x][y]))
 
@@ -117,16 +114,18 @@ for count in range(0, counter):
                 i = 10
                 changes = changes + 1
 
-        #wenn es nicht besser geworden ist greife auf save zurück
-        if better==False:
-            NN[x][y] = save
+            #wenn es nicht besser geworden ist greife auf save zurück
+            if better==False:
+                NN[x][y] = save
+
+        print(str(count) + " von " + str(counter) + " jahren trainiert and learnd " + str(changes) + " things")
+        maxchanges = maxchanges + changes
+        changes = 0
 
     #die Änderungen von NN werden als .csv gespeichert
     writer = csv.writer(open('NN.csv', 'w', newline=''))
     writer.writerows(NN)
 
-    print(str(count) + " von " + str(counter) + " jahren trainiert and learnd " + str(changes) + " things")
-    maxchanges = maxchanges + changes
-    changes = 0
+    print(str(maxchanges) + " changes made")
 
-print(str(maxchanges) + " changes made")
+trainNNday()
