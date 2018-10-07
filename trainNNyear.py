@@ -70,7 +70,7 @@ def trainNNyear():
     #wiedeholung bis counter
     for count in range(0, counter):
         if counter == 777888999:
-            i = 0
+            count = 0
 
 
         #Zeit

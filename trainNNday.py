@@ -111,7 +111,6 @@ def trainNNday():
             #hatt es sich gebessert
             better = (gewinn < ngewinn)
             if better:
-                i = 10
                 changes = changes + 1
 
             #wenn es nicht besser geworden ist greife auf save zurück
