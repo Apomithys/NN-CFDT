@@ -7,7 +7,7 @@ from libary import NN_CFDT
 nameKurs = str(input("kurstabelle: "))
 nameNN = str(input("NNtabelle: "))
 
-#transformKurs.transformKurs()
+transformKurs.transformKurs(nameKurs)
 randomizeNN.randomizeNN(nameNN)
 trainNNday.trainNNday(nameKurs, nameNN)
 dauertestNN.dauertestNN(nameKurs, nameNN)
