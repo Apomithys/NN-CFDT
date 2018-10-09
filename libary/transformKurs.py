@@ -7,11 +7,11 @@ def readTable(name):
     return(lines)
 
 def transformKurs(nameKurs):
-    print("start 'transformKurs'")
     #einlesen der tabell in beide Variablen
     kurs = readTable(nameKurs)
     #nur wenne es geändert werden muss
     if kurs[0][0] == 'Date':
+        print("start 'transformKurs'")
         newKurs = readTable(nameKurs)
 
         #tabelle mit 0'en

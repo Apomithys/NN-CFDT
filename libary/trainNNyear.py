@@ -39,10 +39,10 @@ def layermalweights(layerIn, NN, index):
 def NNrechner(layerIn, weightsIn):
     layerOut = 0
     length = int(len(weightsIn)/10) -1
-    print("pppppppppppppppppppppp: " + str(length))
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer1 = layermalweights(layerIn, weightsIn, 0)
-    for i in range(0, length):
+    #wegen hidden layer + in +out 
+    for i in range(1, length+2):
         layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         layer2 = layermalweights(layer1, weightsIn, i)
         layer1 = layer2
@@ -71,6 +71,7 @@ def trainNNyear(nameKurs, nameNN):
         if counter == 777888999:
             count = 0
 
+        print ('|', end="", flush=True)
 
         #Zeit
         time = 0
@@ -101,7 +102,8 @@ def trainNNyear(nameKurs, nameNN):
         better = False
 
         #change
-        NN[x][y] = -float(NN[x][y])
+        #NN[x][y] = -float(NN[x][y])
+        NN[x][y] = float(NN[x][y]) + random.uniform(-0.01, 0.01)
 
         #Zeit
         time = 0
@@ -131,10 +133,10 @@ def trainNNyear(nameKurs, nameNN):
             #nimm das gesicherte
             NN[x][y] = save
 
-        print("it learned something: " + str(better))
+        # print("it learned something: " + str(changes))
         
         #die Änderungen von NN werden als .csv gespeichert
-        writer = csv.writer(open('NN.csv', 'w', newline=''))
+        writer = csv.writer(open(str(nameNN), 'w', newline=''))
         writer.writerows(NN)
-
+    print()
     print(str(changes) + " changes made")

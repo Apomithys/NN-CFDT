@@ -38,7 +38,6 @@ def layermalweights(layerIn, NN, index):
 def NNrechner(layerIn, weightsIn):
     layerOut = 0
     length = int(len(weightsIn)/10) -1
-    print("pppppppppppppppppppppp: " + str(length))
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer1 = layermalweights(layerIn, weightsIn, 0)
     for i in range(0, length):
@@ -54,8 +53,6 @@ def NNrechner(layerIn, weightsIn):
 
 ########################################################    Main part
 def trainNNday(nameKurs, nameNN):
-    print("start 'trainNNday'")
-
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
     kurs = readTable(str(nameKurs))
@@ -122,7 +119,7 @@ def trainNNday(nameKurs, nameNN):
         changes = 0
 
     #die Änderungen von NN werden als .csv gespeichert
-    writer = csv.writer(open('NN.csv', 'w', newline=''))
+    writer = csv.writer(open(nameNN, 'w', newline=''))
     writer.writerows(NN)
 
     print(str(maxchanges) + " changes made")

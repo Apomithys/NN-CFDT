@@ -38,7 +38,6 @@ def layermalweights(layerIn, NN, index):
 def NNrechner(layerIn, weightsIn):
     layerOut = 0
     length = int(len(weightsIn)/10) -1
-    print("pppppppppppppppppppppp: " + str(length))
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer1 = layermalweights(layerIn, weightsIn, 0)
     for i in range(0, length):
@@ -55,8 +54,6 @@ def NNrechner(layerIn, weightsIn):
 ########################################################    Main part
 
 def dauertestNN(nameKurs, nameNN):
-    print("start 'dauertestNN'")
-
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
     kurs = readTable(str(nameKurs))
@@ -73,11 +70,9 @@ def dauertestNN(nameKurs, nameNN):
 
     #timelaps
     for time in range(10, len(kurs)):
-        print(time)
         #sichtbare Daten für das NN als Eingabelayer
         daten = []
         daten = seperateData(kurs, time)
-        print(daten)
         
         #Berechnung der Voraussage
         voraussage = NNrechner(daten, NN)
@@ -87,6 +82,7 @@ def dauertestNN(nameKurs, nameNN):
         gesamt = gesamt + wettabfall
 
         #hier kann ausgegeben werden wass du willst (wettabfall/gesamt/voraussage)
-        print(str(voraussage) + " * " + str(kurs[time][0]) + " = " + str(wettabfall))
-        print("gesamt: " + str(gesamt))
-        print()
+        # print(time)
+        # print(daten)
+        # print(str(voraussage) + " * " + str(kurs[time][0]) + " = " + str(wettabfall))
+    print("gesamt: " + str(gesamt))

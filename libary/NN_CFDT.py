@@ -35,7 +35,6 @@ def layermalweights(layerIn, NN, index):
 def NNrechner(layerIn, weightsIn):
     layerOut = 0
     length = int(len(weightsIn)/10) -1
-    print("pppppppppppppppppppppp: " + str(length))
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer1 = layermalweights(layerIn, weightsIn, 0)
     for i in range(0, length):
@@ -52,7 +51,6 @@ def NNrechner(layerIn, weightsIn):
 ########################################################    Main part
 
 def triffVoraussage(nameKurs, nameNN):
-    print("start 'triffVoraussage'")
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
     kurs = readTable(str(nameKurs))
@@ -66,7 +64,9 @@ def triffVoraussage(nameKurs, nameNN):
     #sichtbare Daten für das NN als Eingabelayer
     daten = []
     daten = seperateData(kurs, len(kurs)-time)
-    print("the NN sees: " + str(daten))
+    print("the NN sees:")
+    for i in range(0, len(daten)):
+        print(str(daten[i]))
 
     #Berechnung des wettabfalls
     einsatzvor = NNrechner(daten, NN)
