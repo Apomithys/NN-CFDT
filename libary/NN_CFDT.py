@@ -2,6 +2,7 @@
 import random
 from random import randint
 import csv
+import math
 
 ########################################################    Funktions
 
@@ -32,22 +33,20 @@ def layermalweights(layerIn, NN, index):
 
 #Funktion mit einem Eingabelayer die einen Wert nach NN
 def NNrechner(layerIn, weightsIn):
-    #kann man das auch als for schleife machen ???
-    layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    layer3 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    layer4 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    layer5 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-    layer1 = layermalweights(layerIn, weightsIn, 0)
-    layer2 = layermalweights(layer1, weightsIn, 10)
-    layer3 = layermalweights(layer2, weightsIn, 20)
-    layer4 = layermalweights(layer3, weightsIn, 30)
-    layer5 = layermalweights(layer4, weightsIn, 40)
-
     layerOut = 0
-    for i in range(0, len(layer5)):
-        layerOut = layerOut + layer5[i]
+    length = int(len(weightsIn)/10) -1
+    print("pppppppppppppppppppppp: " + str(length))
+    layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    layer1 = layermalweights(layerIn, weightsIn, 0)
+    for i in range(0, length):
+        layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        layer2 = layermalweights(layer1, weightsIn, i)
+        layer1 = layer2
+
+    for o in range(0, len(layer1)):
+        pass
+        layerOut = layerOut + layer1[o]
+
     return(layerOut)
 
 ########################################################    Main part
@@ -62,7 +61,7 @@ def triffVoraussage(nameKurs, nameNN):
     NN = []
     NN = readTable(str(nameNN))
 
-    time = int(input("time(type'0' to see latest): "))
+    time = int(input("time(type 0 to see latest): "))
 
     #sichtbare Daten für das NN als Eingabelayer
     daten = []
