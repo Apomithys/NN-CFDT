@@ -54,7 +54,7 @@ def NNrechner(layerIn, weightsIn):
     return(layerOut)
 
 ########################################################    Main part
-def trainNNyear(nameKurs, nameNN):
+def trainNNyear(nameKurs, nameNN, distance):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
     kurs = readTable(str(nameKurs))
@@ -66,29 +66,29 @@ def trainNNyear(nameKurs, nameNN):
     counter = int(input("how long: "))
     changes = 0
 
+    #Zeit
+    time = 0
+    gesamt = 0
+    #gesammt berechnen
+    for time in range(10, len(kurs)):
+
+        #sichtbare Daten für das NN als Eingabelayer
+        daten = []
+        daten = seperateData(kurs, time)
+
+        #Berechnung der Vorausagung
+        voraussagung = NNrechner(daten, NN)
+        #Berechnung des gewinns
+        gewinn = gues(float(kurs[time][0]), voraussagung)
+
+        gesamt = gesamt + gewinn
+
     #wiedeholung bis counter
     for count in range(0, counter):
         if counter == 777888999:
             count = 0
 
         print ('|', end="", flush=True)
-
-        #Zeit
-        time = 0
-        gesamt = 0
-        #gesammt berechnen
-        for time in range(10, len(kurs)):
-
-            #sichtbare Daten für das NN als Eingabelayer
-            daten = []
-            daten = seperateData(kurs, time)
-
-            #Berechnung der Vorausagung
-            voraussagung = NNrechner(daten, NN)
-            #Berechnung des gewinns
-            gewinn = gues(float(kurs[time][0]), voraussagung)
-
-            gesamt = gesamt + gewinn
 
         #Bestimmen des Neurons per zufall
         x = randint(0, len(NN)-1)
@@ -102,8 +102,10 @@ def trainNNyear(nameKurs, nameNN):
         better = False
 
         #change
-        #NN[x][y] = -float(NN[x][y])
-        NN[x][y] = float(NN[x][y]) + random.uniform(-0.01, 0.01)
+        print(str(NN[x][y]))
+        # NN[x][y] = -float(NN[x][y])
+        NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
+        print(NN[x][y])
 
         #Zeit
         time = 0
@@ -123,7 +125,8 @@ def trainNNyear(nameKurs, nameNN):
 
         #gucken ob gebessert hat
         better = (ngesamt > gesamt)
-
+        print(str(better) + " = " + str(ngesamt) + " > " + str(gesamt))
+        
         #wenn es besser geworden ist
         if better == True:
             #addiere einen change dazu

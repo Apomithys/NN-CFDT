@@ -52,7 +52,7 @@ def NNrechner(layerIn, weightsIn):
     return(layerOut)
 
 ########################################################    Main part
-def trainNNday(nameKurs, nameNN):
+def trainNNday(nameKurs, nameNN, distance):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
     kurs = readTable(str(nameKurs))
@@ -98,7 +98,8 @@ def trainNNday(nameKurs, nameNN):
             better = False
 
             #ändere das ausgewählte Neuron
-            NN[x][y] = -(float(NN[x][y]))
+            #NN[x][y] = -float(NN[x][y])
+            NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
 
             #Berechnung der Vorausagung
             nvoraussagung = NNrechner(daten, NN)
