@@ -40,7 +40,8 @@ def NNrechner(layerIn, weightsIn):
     length = int(len(weightsIn)/10) -1
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     layer1 = layermalweights(layerIn, weightsIn, 0)
-    for i in range(0, length):
+    #wegen hidden layer + in +out 
+    for i in range(1, length+2):
         layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         layer2 = layermalweights(layer1, weightsIn, i)
         layer1 = layer2
@@ -50,6 +51,7 @@ def NNrechner(layerIn, weightsIn):
         layerOut = layerOut + layer1[o]
 
     return(layerOut)
+
 
 ########################################################    Main part
 

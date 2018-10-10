@@ -35,7 +35,6 @@ def layermalweights(layerIn, NN, index):
     return(layerOut)
 
 #Funktion mit einem Eingabelayer die einen Wert nach NN
-#Funktion mit einem Eingabelayer die einen Wert nach NN
 def NNrechner(layerIn, weightsIn):
     layerOut = 0
     length = int(len(weightsIn)/10) -1
@@ -82,6 +81,7 @@ def trainNNyear(nameKurs, nameNN, distance):
         gewinn = gues(float(kurs[time][0]), voraussagung)
 
         gesamt = gesamt + gewinn
+    print("gesamt am anfangg: "+ str(gesamt))
 
     #wiedeholung bis counter
     for count in range(0, counter):
@@ -102,10 +102,8 @@ def trainNNyear(nameKurs, nameNN, distance):
         better = False
 
         #change
-        print(str(NN[x][y]))
-        # NN[x][y] = -float(NN[x][y])
-        NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
-        print(NN[x][y])
+        NN[x][y] = -float(NN[x][y])
+        # NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
 
         #Zeit
         time = 0
@@ -125,7 +123,7 @@ def trainNNyear(nameKurs, nameNN, distance):
 
         #gucken ob gebessert hat
         better = (ngesamt > gesamt)
-        print(str(better) + " = " + str(ngesamt) + " > " + str(gesamt))
+        # print(str(better) + " = " + str(ngesamt) + " > " + str(gesamt))
         
         #wenn es besser geworden ist
         if better == True:
