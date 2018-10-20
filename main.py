@@ -1,9 +1,9 @@
-from libary import randomizeNN
-from libary import trainNNday
-from libary import trainNNyear
-from libary import dauertestNN
-from libary import transformKurs
-from libary import NN_CFDT
+import randomizeNN
+import trainNNday
+import trainNNyear
+import dauertestNN
+import transformKurs
+import NN_CFDT
 
 nameKurs = str(input("kurstabelle: "))
 nameNN = str(input("NNtabelle: "))
@@ -14,7 +14,7 @@ print()
 transformKurs.transformKurs(nameKurs)
 print()
 
-if bool(input("wilst du das NN randomizen?: "))==True:
+if str(input("wilst du das NN randomizen?: "))=="True":
     print("start 'randomizeNN'")
     randomizeNN.randomizeNN(nameNN, index, distance)
     print()
@@ -28,7 +28,7 @@ print()
 # print()
 
 print("start 'trainNNyear'")
-trainNNyear.trainNNyear(nameKurs, nameNN, float(distance)*2)
+trainNNyear.trainNNyear(nameKurs, nameNN, float(distance)/2)
 print()
 
 print("start 'dauertestNN'")
