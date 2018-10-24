@@ -1,23 +1,36 @@
-from libary import randomizeNN
-from libary import trainNNday
-from libary import trainNNyear
-from libary import dauertestNN
-from libary import transformKurs
-from libary import NN_CFDT
+﻿'''
+Programm NN
+Neuronales Netzwerk zum Lernen von Kursänderungen
+Ver. 24.10.2018	py3
+'''
 
+# import helping functions
+import randomizeNN
+import trainNNday
+import trainNNyear
+import dauertestNN
+import transformKurs
+import NN_CFDT
+
+### Eingaben ###
+# Kurstabelle enthält ...
 nameKurs = str(input("kurstabelle: "))
+# NN-Tabelle
 nameNN = str(input("NNtabelle: "))
+# Anzahl der Layer
 index = int(input("hidden layer: "))
+# 
 distance = float(input("range NN: "))
-print()
+#print()
 
 transformKurs.transformKurs(nameKurs)
-print()
+#print()
 
-if bool(input("wilst du das NN randomizen?: "))==True:
+if str(input("wilst du das NN randomizen?: "))=="True":
     print("start 'randomizeNN'")
     randomizeNN.randomizeNN(nameNN, index, distance)
-    print()
+
+print("___________________")
 
 print("start 'dauertestNN'")
 dauertestNN.dauertestNN(nameKurs, nameNN)
@@ -28,7 +41,7 @@ print()
 # print()
 
 print("start 'trainNNyear'")
-trainNNyear.trainNNyear(nameKurs, nameNN, float(distance)*2)
+trainNNyear.trainNNyear(nameKurs, nameNN, float(distance)/2)
 print()
 
 print("start 'dauertestNN'")
