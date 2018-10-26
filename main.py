@@ -5,6 +5,7 @@ import dauertestNN
 import transformKurs
 import NN_CFDT
 
+print("###############################################################################")
 nameKurs = str(input("kurstabelle: "))
 nameNN = str(input("NNtabelle: "))
 index = int(input("hidden layer: "))
@@ -28,7 +29,7 @@ print()
 # print()
 
 print("start 'trainNNyear'")
-trainNNyear.trainNNyear(nameKurs, nameNN, float(distance)/2)
+trainNNyear.trainNNyear(nameKurs, nameNN, float(distance))
 print()
 
 print("start 'dauertestNN'")
@@ -38,3 +39,4 @@ print()
 print("start 'triffVoraussage'")
 NN_CFDT.triffVoraussage(nameKurs, nameNN)
 print()
+print("###############################################################################")
