@@ -28,16 +28,20 @@ damit die Statusanzeigen, Ausgaben bzw. Dialoge sinnvoll genutzt werden können
 
 ### Data-Structure
 
+#### Branches
 momentan existieren 2 branches
 >master
 
 >develop
+
 im master branch wird nur funktionierender Code (ohne Bugs) veröffentlicht
 im develop branch können Entwicklungsvortschritte veröffentlicht werden
 
+#### Ordner
 alle Dateien liegen in einem Ordner 
 >NN-CFDT/
 
+#### Code-Dateien
 alle grundlegenden Funktionen liegen in einer Datei
 >funktions.py
 
