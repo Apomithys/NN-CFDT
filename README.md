@@ -4,10 +4,10 @@
 
 ## How to use it?
 
-am besten ist es die datei ´main.py´ über die entsprächende Eingabesteuerung des Betriebssytems anzusteuern und auszuführen
+am besten ist es die datei `main.py` über die entsprächende Eingabesteuerung des Betriebssytems anzusteuern und auszuführen
 damit die Statusanzeigen, Ausgaben bzw. Dialoge sinnvoll genutzt werden können
 
-1. Starten des Programms ´main.py´
+1. Starten des Programms `main.py`
 2. Eingabe
     - Eingabe der Kursdateien (.csv)
     - Eingabe der Datei in der das NN gespeichert werden soll (.csv)
