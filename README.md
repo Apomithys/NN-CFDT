@@ -30,6 +30,7 @@ damit die Statusanzeigen, Ausgaben bzw. Dialoge sinnvoll genutzt werden können
 
 momentan existieren 2 branches
 >master
+
 >develop
 im master branch wird nur funktionierender Code (ohne Bugs) veröffentlicht
 im develop branch können Entwicklungsvortschritte veröffentlicht werden
@@ -42,8 +43,13 @@ alle grundlegenden Funktionen liegen in einer Datei
 
 folgende Dateien enthalten meist code, der die Funktionen in funktions.py nützlich machen (mit Ausgabe)
 >dauertestNN.py
+
 >NN-CFDT.py
+
 >randomizeNN.py
+
 >trainNNday.py
+
 >trainNNyear.py
+
 >transformNN.py
