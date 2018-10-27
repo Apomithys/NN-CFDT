@@ -20,6 +20,7 @@ def trainNNday(nameKurs, nameNN, distance):
     
     #timelaps
     for count in range(0, counter):
+        print ('#', end="", flush=True)
         if counter == 777888999:
             count = 0
 
@@ -68,12 +69,12 @@ def trainNNday(nameKurs, nameNN, distance):
             if better==False:
                 NN[x][y] = save
 
-        print(str(count) + " von " + str(counter) + " jahren trainiert and learnd " + str(changes) + " things")
+        #print(str(count) + " von " + str(counter) + " jahren trainiert and learnd " + str(changes) + " things")
         maxchanges = maxchanges + changes
         changes = 0
 
     #die Änderungen von NN werden als .csv gespeichert
     writer = csv.writer(open(nameNN, 'w', newline=''))
     writer.writerows(NN)
-
+    print()
     print(str(maxchanges) + " changes made")

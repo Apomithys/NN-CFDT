@@ -7,6 +7,16 @@
 am besten ist es die datei `main.py` über die entsprächende Eingabesteuerung des Betriebssytems anzusteuern und auszuführen
 damit die Statusanzeigen, Ausgaben bzw. Dialoge sinnvoll genutzt werden können
 
+### Vorarbeit
+
+um das NN zu trainieren braucht es Informationen
+dieses NN ist darauf ausgelegt spezielle .csv Dateien mit historischen Kursdaten zu verarbeiten
+[Yahoo! Finance](https://finance.yahoo.com/) bietet Historische Daten im perfekten Format für das Programm
+lade einfach die Historischen daten des entsprächenden Wertpapiers herunder
+anschließend muss die .csv Datei mit in den Ordner `NN-CFDT` gelegt werden
+
+### Programm
+
 1. Starten des Programms `main.py`
 2. Eingabe
     - Eingabe der Kursdateien (.csv)

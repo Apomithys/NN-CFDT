@@ -5,17 +5,18 @@ import dauertestNN
 import transformKurs
 import NN_CFDT
 
-print("###############################################################################")
+print("start 'main'")
 nameKurs = str(input("kurstabelle: "))
 nameNN = str(input("NNtabelle: "))
 index = int(input("hidden layer: "))
-distance = float(input("range NN: "))
+distance = 2
 print()
 
+print("start 'transformKurs'")
 transformKurs.transformKurs(nameKurs)
 print()
 
-if str(input("wilst du das NN randomizen?: "))=="True":
+if str(input("NN zurücksetzen?: "))=="y":
     print("start 'randomizeNN'")
     randomizeNN.randomizeNN(nameNN, index, distance)
     print()
@@ -39,4 +40,4 @@ print()
 print("start 'triffVoraussage'")
 NN_CFDT.triffVoraussage(nameKurs, nameNN)
 print()
-print("###############################################################################")
+print("process ended")

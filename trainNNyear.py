@@ -18,13 +18,10 @@ def trainNNyear(nameKurs, nameNN, distance):
     counter = int(input("how long: "))
     changes = 0
 
-    gesamt = funktions.getGesamt(kurs, NN)
-    print(str(gesamt) + " am Anfang")
-
     #wiedeholung bis counter
     for i in range(0, counter):
         print ('#', end="", flush=True)
-
+        gesamt = funktions.getGesamt(kurs, NN)
         #Bestimmen des Neurons per zufall
         x = randint(0, len(NN)-1)
         y = randint(0, len(NN[x])-1)
