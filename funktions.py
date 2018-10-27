@@ -55,7 +55,7 @@ def transformKurs(nameKurs):
     #nur wenne es geändert werden muss
     if kurs[0][0] == 'Date':
         #print("start 'transformKurs'")
-        newKurs = kurs
+        newKurs = readTable(nameKurs)
         #größer der Tabelle 
         #spart Zeit auch für die Scheifen
         lengthx = len(newKurs)
@@ -68,14 +68,21 @@ def transformKurs(nameKurs):
                 #setzte es auf null
                 newKurs[i][o] = 0
         #print(newKurs)
-        #packt die daten von 4 zu 0
+        #steigung wrird berechnet und in 0 gepackt
         for i in range(1, lengthx-1):
             newKurs[i-1][0] = float(kurs[i+1][4]) - float(kurs[i][4])
         #packt die daten von 4 zu 1
         for i in range(1, lengthx):
             newKurs[i-1][1] = float(kurs[i][4])
+        #löscht die letzten spalten mit nullen
+        for i in range(0, lengthx):
+            del newKurs[i][6]
+            del newKurs[i][5]
+            del newKurs[i][4]
+            del newKurs[i][3]
+            del newKurs[i][2]
         #print(newKurs)
-        #ösche die letzten beiden zeilen
+        #lösche die letzten beiden zeilen
         #ertse war mal die 1. Zeile (hedder)
         del newKurs[lengthx-1]
         #zweite war die letzte die übrich bleibt beim berechnen der differenz der zeiten...

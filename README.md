@@ -5,6 +5,7 @@
 Dieses Programm ist ein Neuronales Netz, welches den zukünftigen Kursverlauf von bestimmten Wertpapieren voraussagen soll.
 Es ist in Python geschrieben. Ich habe darauf geachtet möglichst wenige Bibliotheken zu verwenden. Aus dem einfachen Grud, dass dieses Projekt hauptsächlich dazu da ist, dass ich selbst meine Programmier Skills verbessere und NN's, ML und Python besser verstehe.
 Ich hoffe man versteht den Code. ;)
+Das Projekt ist einbisschen von [tradeucer](http://www.traducer.de/star/include/tabelle.htm) inspiriert...
 
 ## How to use it?
 
@@ -71,4 +72,35 @@ folgende Dateien enthalten meist code, der die Funktionen in funktions.py nützl
 gennerell versuche ich den Code möglichst verständlich zu kommentieren ;)
 also empfehle ich auch den Code am Code zu verstehen
 die grobe Idee beschreibe ich trotsdem im folgenden
-...
+
+alle wichitgen Funktionen sind in der Datei `funktions.py` nieder geschrieben
+
+### randomizeNN
+
+diese Funktion setzt ein NN zurück
+dabei werden alle Werte zufällig bestimmt
+
+### sigmoid
+
+diese Funktion ist nicht wirklich eine Sigmoid Funktion, da momentan das gesammte Sytem auf "Trinär" basiert
+es gibt also die Zustände 
+
+>+1: steigend
+
+>0: unsicher
+
+>-1: fallent
+
+deshalb gibt diese Funktion nur einen Wert dieser Zustände aus
+
+### readTable
+
+diese Funktion liest .csv Dateinen ein und gibt ein zweidimensionalen Array aus
+das ist auch nur von irgendeinem Tutorial vom YouTube...
+
+### transformKurs
+
+das Programm benötigt eindeutige und immer gleiche Syntax der Kurstabelle
+diese Funktion macht aus der .csv Datei von [Yahoo! Finance](https://finance.yahoo.com/) ein für das Programm nützliches Array
+außerdem berechnet diese Funktion den Ansteig des Kurses
+weil es ncht die Zukunft voraussagen kann und die Überschriften gelöscht werden ist das Array auch 2 Zeilen kleiner als die .csv Dadei
