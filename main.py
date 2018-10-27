@@ -1,9 +1,7 @@
-import randomizeNN
 import trainNNday
 import trainNNyear
 import dauertestNN
-import transformKurs
-import NN_CFDT
+import funktions
 
 print("start 'main'")
 nameKurs = str(input("kurstabelle: "))
@@ -13,12 +11,12 @@ distance = 2
 print()
 
 print("start 'transformKurs'")
-transformKurs.transformKurs(nameKurs)
+funktions.transformKurs(nameKurs)
 print()
 
 if str(input("NN zurücksetzen?: "))=="y":
     print("start 'randomizeNN'")
-    randomizeNN.randomizeNN(nameNN, index, distance)
+    funktions.randomizeNN(nameNN, index, distance)
     print()
 
 print("start 'dauertestNN'")
@@ -38,6 +36,6 @@ dauertestNN.dauertestNN(nameKurs, nameNN)
 print()
 
 print("start 'triffVoraussage'")
-NN_CFDT.triffVoraussage(nameKurs, nameNN)
+funktions.triffLiveVoraussage(nameKurs, nameNN)
 print()
 print("process ended")

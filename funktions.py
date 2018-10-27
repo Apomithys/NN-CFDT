@@ -6,6 +6,15 @@ import math
 
 ########################################################    Funktions
 
+def randomizeNN(nameNN, index, distance):
+    with open(str(nameNN), 'w', newline='') as file:
+        thewriter = csv.writer(file)
+        for o in range(0, index*10):
+            row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            for i in range(0, 10):
+                row[i] = float(random.uniform(-float(distance), float(distance)))
+            thewriter.writerow(row)
+
 #sigmoud funktion
 #nicht wirklich (nur vrearbeitung des Inputs)
 def sigmoid(x):
@@ -31,6 +40,38 @@ def readTable(name):
     lines = list(r)
     #ausgabe
     return(lines)
+
+def transformKurs(nameKurs):
+    #einlesen der tabell in beide Variablen
+    kurs = readTable(nameKurs)
+    #nur wenne es geändert werden muss
+    if kurs[0][0] == 'Date':
+        #print("start 'transformKurs'")
+        newKurs = readTable(nameKurs)
+        lengthx = len(newKurs)
+        lengthy = len(newKurs[0])
+        #tabelle mit 0'en erstellen
+        #das muss besser gehen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #wiederhole für jede zeile und Spalte
+        for i in range(0, lengthx):
+            for o in range(0, lengthy):
+                #setzte es auf null
+                newKurs[i][o] = 0
+        #print(newKurs)
+
+        for i in range(1, len(kurs)-1):
+            newKurs[i-1][0] = float(kurs[i+1][4]) - float(kurs[i][4])
+        for i in range(1, len(kurs)):
+            newKurs[i-1][1] = float(kurs[i][4])
+        #print(newKurs)
+        del newKurs[lengthx-1]
+        del newKurs[lengthx-2]
+        # die Änderungen von NN werden als .csv gespeichert
+        writer = csv.writer(open(nameKurs, 'w', newline=''))
+        writer.writerows(newKurs)
+        print("Kursdatei formatiert")
+    else:
+        print("Datei ist bereits formatiert")
 
 #seperate the data für das Netztwerk als input
 def seperateData(tabelle, t):
@@ -126,3 +167,25 @@ def getGesamt(kurseingabe, nneingabe):
         # print()
         gesamt = gesamt + gewinn
     return gesamt
+
+def triffLiveVoraussage(nameKurs, nameNN):
+    #Einlesen der Tabelle "kurs.csv" als kurs
+    kurs = []
+    kurs = readTable(str(nameKurs))
+
+    #Einlesender Tabelle "NN.csv" als NN
+    NN = []
+    NN = readTable(str(nameNN))
+
+    time = 0
+
+    #sichtbare Daten für das NN als Eingabelayer
+    daten = []
+    daten = seperateData(kurs, len(kurs)-time)
+    print("the NN sees:")
+    for i in range(0, len(daten)):
+        print(str(daten[i]))
+
+    #Berechnung des wettabfalls
+    einsatzvor = NNrechner(daten, NN)
+    print("you should bet: " + str(einsatzvor))

@@ -2,6 +2,10 @@
 
 ## Neural Network for Contract For Difference Traiding
 
+Dieses Programm ist ein Neuronales Netz, welches den zukünftigen Kursverlauf von bestimmten Wertpapieren voraussagen soll.
+Es ist in Python geschrieben. Ich habe darauf geachtet möglichst wenige Bibliotheken zu verwenden. Aus dem einfachen Grud, dass dieses Projekt hauptsächlich dazu da ist, dass ich selbst meine Programmier Skills verbessere und NN's, ML und Python besser verstehe.
+Ich hoffe man versteht den Code. ;)
+
 ## How to use it?
 
 am besten ist es die datei `main.py` über die entsprächende Eingabesteuerung des Betriebssytems anzusteuern und auszuführen
@@ -58,12 +62,13 @@ alle grundlegenden Funktionen liegen in einer Datei
 folgende Dateien enthalten meist code, der die Funktionen in funktions.py nützlich machen (mit Ausgabe)
 >dauertestNN.py
 
->NN-CFDT.py
-
->randomizeNN.py
-
 >trainNNday.py
 
 >trainNNyear.py
 
->transformNN.py
+## How it works
+
+gennerell versuche ich den Code möglichst verständlich zu kommentieren ;)
+also empfehle ich auch den Code am Code zu verstehen
+die grobe Idee beschreibe ich trotsdem im folgenden
+...
