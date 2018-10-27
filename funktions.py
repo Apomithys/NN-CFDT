@@ -6,13 +6,19 @@ import math
 
 ########################################################    Funktions
 
+#NN wid zurückgesetzt
 def randomizeNN(nameNN, index, distance):
+    #bestimmtes File wird geöffnet
     with open(str(nameNN), 'w', newline='') as file:
         thewriter = csv.writer(file)
+        #für jeden hidden layer wird 10*10 felder in der .csv datei hinzu gefügt
         for o in range(0, index*10):
+            #10*10 Felder
             row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             for i in range(0, 10):
+                #jedes der Felder wird mit einem Zufallswert gefüllt
                 row[i] = float(random.uniform(-float(distance), float(distance)))
+            #speichern...
             thewriter.writerow(row)
 
 #sigmoud funktion
@@ -27,13 +33,14 @@ def sigmoid(x):
         #-1 heißt fallend
         out=-1
     #es kann aber auch 0 raus kommen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #führt möglicher weise zu problemen
+    #führt möglicher weise zu problemen `\_O_/`
     #ausgabe
     return out
 
 #Einlesen der Tabelle
 def readTable(name):
     #funktioneiert!
+    #nicht berühren!!!!!!!!!
     #einlesen
     r = csv.reader(open(name))
     #auflisten
@@ -41,13 +48,16 @@ def readTable(name):
     #ausgabe
     return(lines)
 
+#formartiert die .csv Datei für das Programm
 def transformKurs(nameKurs):
-    #einlesen der tabell in beide Variablen
+    #einlesen der tabell
     kurs = readTable(nameKurs)
     #nur wenne es geändert werden muss
     if kurs[0][0] == 'Date':
         #print("start 'transformKurs'")
-        newKurs = readTable(nameKurs)
+        newKurs = kurs
+        #größer der Tabelle 
+        #spart Zeit auch für die Scheifen
         lengthx = len(newKurs)
         lengthy = len(newKurs[0])
         #tabelle mit 0'en erstellen
@@ -58,13 +68,17 @@ def transformKurs(nameKurs):
                 #setzte es auf null
                 newKurs[i][o] = 0
         #print(newKurs)
-
-        for i in range(1, len(kurs)-1):
+        #packt die daten von 4 zu 0
+        for i in range(1, lengthx-1):
             newKurs[i-1][0] = float(kurs[i+1][4]) - float(kurs[i][4])
-        for i in range(1, len(kurs)):
+        #packt die daten von 4 zu 1
+        for i in range(1, lengthx):
             newKurs[i-1][1] = float(kurs[i][4])
         #print(newKurs)
+        #ösche die letzten beiden zeilen
+        #ertse war mal die 1. Zeile (hedder)
         del newKurs[lengthx-1]
+        #zweite war die letzte die übrich bleibt beim berechnen der differenz der zeiten...
         del newKurs[lengthx-2]
         # die Änderungen von NN werden als .csv gespeichert
         writer = csv.writer(open(nameKurs, 'w', newline=''))
@@ -74,6 +88,7 @@ def transformKurs(nameKurs):
         print("Datei ist bereits formatiert")
 
 #seperate the data für das Netztwerk als input
+#da das NN nur die letzten 10 tage sehen soll
 def seperateData(tabelle, t):
     #tabelle ist die kustabelle
     #t ist die Zeit (0 heißt Live-Voraussage)
@@ -131,20 +146,25 @@ def NNrechner(layerIn, weightsIn):
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     #vom input zum layer 1 gerechnet (1. hidden layer)
     layer1 = layermalweights(layerIn, weightsIn, 0)
-    #wiederholt für jeden hidden layer 
+    #wiederholt für jeden weiteren hidden layer 
+    #in 10'ner schritten weil ein hidden layer 10 spalten hat
     for i in range(10, length, 10):
         #layer2 wird geleert und berechnet
         layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         layer2 = layermalweights(layer1, weightsIn, i)
         #ergebniss wird an layer 1 weiter gegeben
         layer1 = layer2
+        #so ergibt sich eine Scheife die es möglich mach unenlich lange NN zu bauen
     for o in range(0, len(layer1)):
+        #output darf nur ein wert sein
         pass
         output = output + layer1[o]
-    
+    #output wird noch einmal bearbeitet
     output = sigmoid(output)
+    #ausgabe
     return(output)
 
+#berechnet den gesammtgewinn des NN über den vorhandenen Zeitraum
 def getGesamt(kurseingabe, nneingabe):
     #Zeit
     time = 0
@@ -152,7 +172,7 @@ def getGesamt(kurseingabe, nneingabe):
     #gesammt berechnen
     for time in range(10, len(kurseingabe)):
 
-        #sichtbare Daten für das NN als Eingabelayer
+        #sichtbare Daten für das NN als Eingabelayer werden sepperiert
         daten = []
         daten = seperateData(kurseingabe, time)
 
@@ -165,9 +185,12 @@ def getGesamt(kurseingabe, nneingabe):
         # print(str(realesGeschehen) + " Real")
         # print(str(gewinn) + " gewonnen")
         # print()
+
+        #gewinn wird dem gesammtgewinn zugerechnet
         gesamt = gesamt + gewinn
     return gesamt
 
+#trifft voraussage für den nächsten Zeitabschnitt
 def triffLiveVoraussage(nameKurs, nameNN):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
@@ -177,9 +200,10 @@ def triffLiveVoraussage(nameKurs, nameNN):
     NN = []
     NN = readTable(str(nameNN))
 
+    #heißt für den neusten Wert
     time = 0
 
-    #sichtbare Daten für das NN als Eingabelayer
+    #sichtbare Daten für das NN als Eingabelayer ermittelt
     daten = []
     daten = seperateData(kurs, len(kurs)-time)
     print("the NN sees:")
