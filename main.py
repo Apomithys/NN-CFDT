@@ -1,6 +1,5 @@
 import trainNNday
 import trainNNyear
-import dauertestNN
 import funktions
 
 print("start 'main'")
@@ -20,7 +19,7 @@ if str(input("NN zurücksetzen?: "))=="y":
     print()
 
 print("start 'dauertestNN'")
-dauertestNN.dauertestNN(nameKurs, nameNN)
+funktions.useGetGesamt(nameKurs, nameNN)
 print()
 
 # print("start 'trainNNday'")
@@ -32,10 +31,10 @@ trainNNyear.trainNNyear(nameKurs, nameNN, float(distance))
 print()
 
 print("start 'dauertestNN'")
-dauertestNN.dauertestNN(nameKurs, nameNN)
+funktions.useGetGesamt(nameKurs, nameNN)
 print()
 
-print("start 'triffVoraussage'")
+print("start 'triffLiveVoraussage'")
 funktions.triffLiveVoraussage(nameKurs, nameNN)
 print()
 print("process ended")

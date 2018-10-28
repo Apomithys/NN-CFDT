@@ -5,7 +5,7 @@ import csv
 import math
 
 ########################################################    Funktions
-
+ 
 #NN wid zurückgesetzt
 def randomizeNN(nameNN, index, distance):
     #bestimmtes File wird geöffnet
@@ -215,8 +215,39 @@ def triffLiveVoraussage(nameKurs, nameNN):
     daten = seperateData(kurs, len(kurs)-time)
     print("the NN sees:")
     for i in range(0, len(daten)):
-        print(str(daten[i]))
+        var = sigmoid(float(daten[i]))
+        if float(var)>0:
+            print("+")
+        if float(var)<0:
+            print("-")
+        if float(var)==0:
+            print("0")
 
     #Berechnung des wettabfalls
     einsatzvor = NNrechner(daten, NN)
-    print("you should bet: " + str(einsatzvor))
+    if einsatzvor>0:
+        print("you should bet: +")
+    if einsatzvor<0:
+        print("you should bet: -")
+    if einsatzvor==0:
+        print("you should bet: 0")
+
+#eigentlich nur die Funktion getGesamt mit Ausgabe
+def useGetGesamt(nameKurs, nameNN):
+    #Einlesen der Tabelle "kurs.csv" als kurs
+    kurs = []
+    kurs = readTable(str(nameKurs))
+
+    #Einlesender Tabelle "NN.csv" als NN
+    NN = []
+    NN = readTable(str(nameNN))
+
+    #zum Beobachten
+    gesamt = 0
+    
+    gesamt = getGesamt(kurs, NN)
+
+    gesamt = (gesamt+100)/200*100
+
+    print("gesamt: " + str(gesamt))
+   
