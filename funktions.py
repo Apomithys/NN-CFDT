@@ -87,6 +87,15 @@ def transformKurs(nameKurs):
         del newKurs[lengthx-1]
         #zweite war die letzte die übrich bleibt beim berechnen der differenz der zeiten...
         del newKurs[lengthx-2]
+        lengthx=lengthx-2
+        #reduziert die Tabelle auf die letzten 100 Tage
+        if lengthx>100:
+            while lengthx>100:
+                del newKurs[0]
+                lengthx=lengthx-1
+        #löscht die 2. Spalte weil die nicht mehr benötigt wird und nur verwirrt...
+        for i in range(0, lengthx):
+            del newKurs[i][1]
         # die Änderungen von NN werden als .csv gespeichert
         writer = csv.writer(open(nameKurs, 'w', newline=''))
         writer.writerows(newKurs)
@@ -214,6 +223,7 @@ def triffLiveVoraussage(nameKurs, nameNN):
     daten = []
     daten = seperateData(kurs, len(kurs)-time)
     print("the NN sees:")
+    #trinärumformung
     for i in range(0, len(daten)):
         var = sigmoid(float(daten[i]))
         if float(var)>0:
@@ -223,15 +233,16 @@ def triffLiveVoraussage(nameKurs, nameNN):
         if float(var)==0:
             print("0")
 
-    #Berechnung des wettabfalls
-    einsatzvor = NNrechner(daten, NN)
-    if einsatzvor>0:
+    #Berechnung der Voraussage
+    voraus = NNrechner(daten, NN)
+    #trinärumformung
+    if voraus>0:
         print("you should bet: +")
-    if einsatzvor<0:
+    if voraus<0:
         print("you should bet: -")
-    if einsatzvor==0:
+    if voraus==0:
         print("you should bet: 0")
-
+    
 #eigentlich nur die Funktion getGesamt mit Ausgabe
 def useGetGesamt(nameKurs, nameNN):
     #Einlesen der Tabelle "kurs.csv" als kurs
