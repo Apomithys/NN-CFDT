@@ -13,10 +13,11 @@ print("start 'transformKurs'")
 funktions.transformKurs(nameKurs)
 print()
 
-if str(input("NN zurücksetzen?: "))=="y":
-    print("start 'randomizeNN'")
-    funktions.randomizeNN(nameNN, index, distance)
-    print()
+# #aus Sicherheitsgründen auskommentiert weil ich nun komplett der goog Aktie folge
+# if str(input("NN zurücksetzen?: "))=="y":
+#     print("start 'randomizeNN'")
+#     funktions.randomizeNN(nameNN, index, distance)
+#     print()
 
 print("start 'dauertestNN'")
 funktions.useGetGesamt(nameKurs, nameNN)

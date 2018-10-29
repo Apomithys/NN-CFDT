@@ -226,9 +226,9 @@ def triffLiveVoraussage(nameKurs, nameNN):
     #trinärumformung
     for i in range(0, len(daten)):
         var = sigmoid(float(daten[i]))
-        if float(var)>0:
+        if float(var)==1:
             print("+")
-        if float(var)<0:
+        if float(var)==-1:
             print("-")
         if float(var)==0:
             print("0")

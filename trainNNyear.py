@@ -15,11 +15,11 @@ def trainNNyear(nameKurs, nameNN, distance):
     NN = funktions.readTable(str(nameNN))
 
     #wie lange soll es trainiert werden
-    counter = int(input("how long: "))
+    counter = 1+int(input("how long: "))
     changes = 0
 
     #wiedeholung bis counter
-    for i in range(0, counter):
+    for i in range(1, counter):
         print ('#', end="", flush=True)
         gesamt = funktions.getGesamt(kurs, NN)
         #Bestimmen des Neurons per zufall
@@ -32,7 +32,6 @@ def trainNNyear(nameKurs, nameNN, distance):
 
         #änderung an einem Neuron
         rand = random.uniform(-float(distance), float(distance))
-
         # NN[x][y] = -float(NN[x][y])
         # NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
         NN[x][y] = float(NN[x][y]) + rand
@@ -51,8 +50,13 @@ def trainNNyear(nameKurs, nameNN, distance):
             #nimm das gesicherte
             NN[x][y] = save
         
-    #die Änderungen von NN werden als .csv gespeichert
-    writer = csv.writer(open(str(nameNN), 'w', newline=''))
-    writer.writerows(NN)
-    print()
-    print(str(changes) + " changes made")
+        if (i%50)==0:
+            #die Änderungen von NN werden als .csv gespeichert
+            writer = csv.writer(open(str(nameNN), 'w', newline=''))
+            writer.writerows(NN)
+            print()
+            print(str(changes) + " changes made")
+            print(str(i) + " / " + str(counter))
+
+            print()
+            changes = 0
