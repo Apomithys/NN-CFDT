@@ -60,13 +60,6 @@ alle Dateien liegen in einem Ordner
 alle grundlegenden Funktionen liegen in einer Datei
 >funktions.py
 
-folgende Dateien enthalten meist code, der die Funktionen in funktions.py nützlich machen (mit Ausgabe)
->dauertestNN.py
-
->trainNNday.py
-
->trainNNyear.py
-
 ## How it works
 
 gennerell versuche ich den Code möglichst verständlich zu kommentieren ;)
@@ -103,4 +96,31 @@ das ist auch nur von irgendeinem Tutorial vom YouTube...
 das Programm benötigt eindeutige und immer gleiche Syntax der Kurstabelle
 diese Funktion macht aus der .csv Datei von [Yahoo! Finance](https://finance.yahoo.com/) ein für das Programm nützliches Array
 außerdem berechnet diese Funktion den Ansteig des Kurses
+so wird die .csv Datei von einer anderen ersetzt in der nur eine Spalte liegt in  der nur die Steigung des Kurses geschrieben ist
 weil es ncht die Zukunft voraussagen kann und die Überschriften gelöscht werden ist das Array auch 2 Zeilen kleiner als die .csv Dadei
+
+### seperateData
+
+diese Funktion liest aus der .csv Datei den entsprächenden Zeitraum aus
+und gibt ihn als Array aus
+man muss den name der .csv Datei und die Zeit eingeben aus welchem Zeitraum die Daten haben will
+wenn man die neusten Daten haben will gibt man 0 ein
+
+### gues
+
+diese Funktion gibt den gewinn einer Voraussage aus
+momentan ist das eine
+
+>+1: gewinn (wahre aussage)
+
+>0: kein Gewinn
+
+>-1: verlohren (falsche aussage)
+
+### layermalweights
+
+Diese Funktion berechnet nach der Eingabe zweier zweidimensionaler Arrays die multiplikation der Matritzen...
+Matrixmultiplikation
+
+### NNrechner
+das ist das NN

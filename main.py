@@ -1,11 +1,12 @@
-import trainNNday
-import trainNNyear
 import funktions
 
 print("start 'main'")
 nameKurs = str(input("kurstabelle: "))
 nameNN = str(input("NNtabelle: "))
-index = int(input("hidden layer: "))
+
+# #aus Sicherheitsgründen auskommentiert damitt die Datei nicht beschädigt wird...
+# index = int(input("hidden layer: "))
+index = 10
 distance = 2
 print()
 
@@ -23,12 +24,8 @@ print("start 'dauertestNN'")
 funktions.useGetGesamt(nameKurs, nameNN)
 print()
 
-# print("start 'trainNNday'")
-# trainNNday.trainNNday(nameKurs, nameNN, distance)
-# print()
-
 print("start 'trainNNyear'")
-trainNNyear.trainNNyear(nameKurs, nameNN, float(distance))
+funktions.trainNNyear(nameKurs, nameNN, float(distance))
 print()
 
 print("start 'dauertestNN'")
