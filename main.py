@@ -23,10 +23,16 @@ print()
 print("start 'dauertestNN'")
 funktions.useGetGesamt(nameKurs, nameNN)
 print()
-
-print("start 'trainNNyear'")
-funktions.trainNNyear(nameKurs, nameNN, float(distance))
-print()
+if str(input("what do you want? "))=="layer":
+    print("start 'trainNNlayer'")
+    funktions.trainNNlayer(nameKurs, nameNN, float(distance))
+    print()
+elif str(input("what do you want? "))=="neuron":
+    print("start 'trainNNneuron'")
+    funktions.trainNNneuron(nameKurs, nameNN, float(distance))
+    print()
+else:
+    print("pass")
 
 print("start 'dauertestNN'")
 funktions.useGetGesamt(nameKurs, nameNN)

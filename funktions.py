@@ -171,7 +171,8 @@ def NNrechner(layerIn, weightsIn):
         #ergebniss wird an layer 1 weiter gegeben
         layer1 = layer2
         #so ergibt sich eine Scheife die es möglich mach unenlich lange NN zu bauen
-    for o in range(0, len(layer1)):
+    layerlange=len(layer1)
+    for o in range(0, layerlange):
         #output darf nur ein wert sein
         pass
         output = output + layer1[o]
@@ -224,7 +225,8 @@ def triffLiveVoraussage(nameKurs, nameNN):
     daten = seperateData(kurs, len(kurs)-time)
     print("the NN sees:")
     #trinärumformung
-    for i in range(0, len(daten)):
+    datenlänge=len(daten)
+    for i in range(0, datenlänge):
         var = sigmoid(float(daten[i]))
         if float(var)==1:
             print("+")
@@ -258,12 +260,15 @@ def useGetGesamt(nameKurs, nameNN):
     
     gesamt = getGesamt(kurs, NN)
 
-    gesamt = (gesamt+100)/200*100
+    prozentGesamt = ((gesamt+(len(kurs)-10))/(2*(len(kurs)-10)))*100
 
-    print("gesamt: " + str(gesamt))
+    print("gesamt: " + str(prozentGesamt))
 
-########################################################    Main part
-def trainNNyear(nameKurs, nameNN, distance):
+
+
+
+########################################################    lernprozess
+def trainNNlayer(nameKurs, nameNN, distance):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
     kurs = readTable(str(nameKurs))
@@ -280,7 +285,66 @@ def trainNNyear(nameKurs, nameNN, distance):
     for i in range(1, counter):
         print ('#', end="", flush=True)
         gesamt = getGesamt(kurs, NN)
-        #Bestimmen des Neurons per zufall
+        #Bestimmen der Neuronenreihe per zufall
+        x = randint(0, len(NN)-1)
+
+        #sichern damit nichts kaputt geht
+        save = [NN[x][0], NN[x][1], NN[x][2], NN[x][3], NN[x][4], NN[x][5], NN[x][6], NN[x][7], NN[x][8], NN[x][9]]
+        
+        rand = random.uniform(-float(distance), float(distance))
+        #änderung an allen Neuronen
+        for y in range(0, len(NN[x])):
+            # NN[x][y] = -float(NN[x][y])
+            # NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
+            NN[x][y] = float(NN[x][y]) + rand
+        #ermitteln des neuen gewinns
+        ngesamt = getGesamt(kurs, NN)
+                
+        #wenn es besser geworden ist
+        #print(str(ngesamt)+ " > " +str(gesamt))
+        if (ngesamt > gesamt) == False:
+            pass
+            #nimm das gesicherte
+            for p in range(0, len(NN[x])):
+                #python ist dummmmmmmmmmmmm af
+                alt = save[p]
+                NN[x][p] = alt
+        
+        if (i%50)==0:
+            #die Änderungen von NN werden als .csv gespeichert
+            writer = csv.writer(open(str(nameNN), 'w', newline=''))
+            writer.writerows(NN)
+
+            print()
+            print(str(i) + " / " + str(counter-1))
+            print("gesammt: " + str(((gesamt+(len(kurs)-10))/(2*(len(kurs)-10)))*100))
+
+            print()
+            changes = 0 
+
+
+
+
+
+########################################################    lernprozess
+def trainNNneuron(nameKurs, nameNN, distance):
+    #Einlesen der Tabelle "kurs.csv" als kurs
+    kurs = []
+    kurs = readTable(str(nameKurs))
+
+    #Einlesender Tabelle "NN.csv" als NN
+    NN = []
+    NN = readTable(str(nameNN))
+
+    #wie lange soll es trainiert werden
+    counter = 1+int(input("how long: "))
+    changes = 0
+
+    #wiedeholung bis counter
+    for i in range(1, counter):
+        print ('#', end="", flush=True)
+        gesamt = getGesamt(kurs, NN)
+        #Bestimmen der Neuronenreihe per zufall
         x = randint(0, len(NN)-1)
         y = randint(0, len(NN[x])-1)
 
@@ -288,33 +352,28 @@ def trainNNyear(nameKurs, nameNN, distance):
         save = 0
         save = NN[x][y]
 
-        #änderung an einem Neuron
+        #änderung an dem Neuron
         rand = random.uniform(-float(distance), float(distance))
         # NN[x][y] = -float(NN[x][y])
         # NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
         NN[x][y] = float(NN[x][y]) + rand
-
         #ermitteln des neuen gewinns
         ngesamt = getGesamt(kurs, NN)
                 
         #wenn es besser geworden ist
         #print(str(ngesamt)+ " > " +str(gesamt))
-        if (ngesamt > gesamt) == True:
-            #addiere einen change dazu
-            changes = changes+1
-        #wenn es immernoch schlecht ist
-        else:
-            pass
+        if ngesamt < gesamt:
             #nimm das gesicherte
             NN[x][y] = save
-        
+
         if (i%50)==0:
             #die Änderungen von NN werden als .csv gespeichert
             writer = csv.writer(open(str(nameNN), 'w', newline=''))
             writer.writerows(NN)
+
             print()
-            print(str(changes) + " changes made")
             print(str(i) + " / " + str(counter-1))
+            print("gesammt: " + str(((gesamt+(len(kurs)-10))/(2*(len(kurs)-10)))*100))
 
             print()
             changes = 0 
