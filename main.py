@@ -1,44 +1,58 @@
+#importiert die Funktionen
 import funktions
+import base
 
+#eingabe
 print("start 'main'")
+#name der Tabelle in der die historischen Kursdaten liegen
 nameKurs = str(input("kurstabelle: "))
+#name der Datei in der das NN gespeichert werden soll
 nameNN = str(input("NNtabelle: "))
 
-# #aus Sicherheitsgründen auskommentiert damitt die Datei nicht beschädigt wird...
-# index = int(input("hidden layer: "))
-index = 10
-distance = 2
+#gewichtung den die Synapsen maximal haben
+synDistance = 2
 print()
 
+#setzt das NN zurück
+base.randomizeNN(nameNN, 10, synDistance)
+
+
+#liest die Tabellen ein
+kurs = base.readTable(nameKurs)
+NeuNet = base.readTable(nameNN)
+
+#formartiert die datei mit den historischen Kursdaten
 print("start 'transformKurs'")
 funktions.transformKurs(nameKurs)
 print()
 
-# #aus Sicherheitsgründen auskommentiert weil ich nun komplett der goog Aktie folge
-# if str(input("NN zurücksetzen?: "))=="y":
-#     print("start 'randomizeNN'")
-#     funktions.randomizeNN(nameNN, index, distance)
-#     print()
-
-print("start 'dauertestNN'")
-funktions.useGetGesamt(nameKurs, nameNN)
+#gibt den Gewinn des NN au sden es am Markt machen würde
+#bzw. wie oft es richtig lag
+print("start 'getGesamt'")
+print(str(funktions.getGesamt(kurs, NeuNet)))
 print()
-if str(input("what do you want? "))=="layer":
+
+inp = str(input("what do you want? "))
+if inp=="layer":
     print("start 'trainNNlayer'")
-    funktions.trainNNlayer(nameKurs, nameNN, float(distance))
+    funktions.trainNNlayer(nameKurs, nameNN, float(synDistance))
     print()
-elif str(input("what do you want? "))=="neuron":
+elif inp=="neuron":
     print("start 'trainNNneuron'")
-    funktions.trainNNneuron(nameKurs, nameNN, float(distance))
+    funktions.trainNNneuron(nameKurs, nameNN, float(synDistance))
     print()
 else:
     print("pass")
 
-print("start 'dauertestNN'")
-funktions.useGetGesamt(nameKurs, nameNN)
+#liest die Tabellen ein
+kurs = base.readTable(nameKurs)
+NeuNet = base.readTable(nameNN)
+
+print("start 'getGesamt'")
+print(str(funktions.getGesamt(kurs, NeuNet)))
 print()
 
 print("start 'triffLiveVoraussage'")
-funktions.triffLiveVoraussage(nameKurs, nameNN)
+
 print()
 print("process ended")

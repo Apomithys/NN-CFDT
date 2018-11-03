@@ -1,61 +1,24 @@
 #import stuff
+print("importing stuff...")
+import base
+
 import random
 from random import randint
+import time
 import csv
 import math
 
 ########################################################    Funktions
- 
-#NN wid zurückgesetzt
-def randomizeNN(nameNN, index, distance):
-    #bestimmtes File wird geöffnet
-    with open(str(nameNN), 'w', newline='') as file:
-        thewriter = csv.writer(file)
-        #für jeden hidden layer wird 10*10 felder in der .csv datei hinzu gefügt
-        for o in range(0, index*10):
-            #10*10 Felder
-            row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            for i in range(0, 10):
-                #jedes der Felder wird mit einem Zufallswert gefüllt
-                row[i] = float(random.uniform(-float(distance), float(distance)))
-            #speichern...
-            thewriter.writerow(row)
 
-#sigmoud funktion
-#nicht wirklich (nur vrearbeitung des Inputs)
-def sigmoid(x):
-    #0 means unentschlossen
-    out=0
-    if x>0:
-        #1 heoßt steigen
-        out=1
-    if x<0:
-        #-1 heißt fallend
-        out=-1
-    #es kann aber auch 0 raus kommen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #führt möglicher weise zu problemen `\_O_/`
-    #ausgabe
-    return out
-
-#Einlesen der Tabelle
-def readTable(name):
-    #funktioneiert!
-    #nicht berühren!!!!!!!!!
-    #einlesen
-    r = csv.reader(open(name))
-    #auflisten
-    lines = list(r)
-    #ausgabe
-    return(lines)
-
-#formartiert die .csv Datei für das Programm
+#formartiert die .csv Datei mit den Kursdaten für das Programm
+#schneidet es außerdem auf 100 Tage zu
 def transformKurs(nameKurs):
     #einlesen der tabell
-    kurs = readTable(nameKurs)
+    kurs = base.readTable(nameKurs)
     #nur wenne es geändert werden muss
     if kurs[0][0] == 'Date':
         #print("start 'transformKurs'")
-        newKurs = readTable(nameKurs)
+        newKurs = base.readTable(nameKurs)
         #größer der Tabelle 
         #spart Zeit auch für die Scheifen
         lengthx = len(newKurs)
@@ -103,38 +66,10 @@ def transformKurs(nameKurs):
     else:
         print("Datei ist bereits formatiert")
 
-#seperate the data für das Netztwerk als input
-#da das NN nur die letzten 10 tage sehen soll
-def seperateData(tabelle, t):
-    #tabelle ist die kustabelle
-    #t ist die Zeit (0 heißt Live-Voraussage)
-    #letzten 10 Tage
-    data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    #
-    counter = 0
-    #von tag 10 zu tag 0
-    for p in range(t-10, t):
-        #counter muss immer zwischen 0 und 10 sein
-        #p allerdings ziemlich hoch
-        #also gibt es 2 zählervariablen
-        data[counter] = tabelle[p][0]
-        #counter ist 2. zählervariable
-        counter += 1
-    #ausgabe der daten
-    return(data)
-
 #wetten, dass "nach" neu die "wette" eintritt
 def gues(neu, wette):
-    #return(neu * wette)
-    #hier kann man noch einen one-liner draus machen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #kein gewinn
-    winn = 0
-    #"vor" ist es eine wahre Aussage kommt positiv else nevativ
-    vor = (neu*wette)
-    #verarbeitung zu -1; 0 oder +1
-    winn = sigmoid(vor)
     #ausgabe des gewinns
-    return(winn)
+    return(float(neu * wette))
 
 #matrixmultiplikation speziell für NN-Gewichtungen
 def layermalweights(layerIn, NN, index):
@@ -148,12 +83,16 @@ def layermalweights(layerIn, NN, index):
         for o in range(0,9):
             output[i] = output[i] + (float(layerIn[o]) * float(NN[o+index][i]))
         #jedes neuron des outputlayers erfährt noch einmal eine Verarbeitung
-        output[i]=sigmoid(output[i])
+        output[i]=base.sigmoid(output[i])
     #ausgabe des outputlayers
     return(output)
 
-#Funktion mit einem Eingabelayer die einen Wert nach NN
+#das Neuronale Netz
+#eingabe: name der Datei in der das NN gespeichert ist
+#       : das was das NN als Input bekommt
+#ausgabe: ein Wert (prdiction)
 def NNrechner(layerIn, weightsIn):
+    base.secureNN(weightsIn)
     output = 0
     #anzahl der hidden layer
     #außerdem wird das Programm schneller
@@ -177,11 +116,11 @@ def NNrechner(layerIn, weightsIn):
         pass
         output = output + layer1[o]
     #output wird noch einmal bearbeitet
-    output = sigmoid(output)
+    output = base.sigmoid(output)
     #ausgabe
     return(output)
 
-#berechnet den gesammtgewinn des NN über den vorhandenen Zeitraum
+#berechnet den gesammtgewinn des NN über 100 Tage
 def getGesamt(kurseingabe, nneingabe):
     #Zeit
     time = 0
@@ -191,11 +130,12 @@ def getGesamt(kurseingabe, nneingabe):
 
         #sichtbare Daten für das NN als Eingabelayer werden sepperiert
         daten = []
-        daten = seperateData(kurseingabe, time)
+        daten = base.seperateData(kurseingabe, time)
 
         #Berechnung der Vorausagung
         voraussagung = NNrechner(daten, nneingabe)
         realesGeschehen = float(kurseingabe[time][0])
+
         #Berechnung des gewinns
         gewinn = gues(realesGeschehen, voraussagung)
         # print(str(voraussagung) + " Vorausgesagt")
@@ -208,26 +148,27 @@ def getGesamt(kurseingabe, nneingabe):
     return gesamt
 
 #trifft voraussage für den nächsten Zeitabschnitt
+#nimmt sich die neusten Daten
 def triffLiveVoraussage(nameKurs, nameNN):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
-    kurs = readTable(str(nameKurs))
+    kurs = base.readTable(str(nameKurs))
 
     #Einlesender Tabelle "NN.csv" als NN
     NN = []
-    NN = readTable(str(nameNN))
+    NN = base.readTable(str(nameNN))
 
     #heißt für den neusten Wert
     time = 0
 
     #sichtbare Daten für das NN als Eingabelayer ermittelt
     daten = []
-    daten = seperateData(kurs, len(kurs)-time)
+    daten = base.seperateData(kurs, len(kurs)-time)
     print("the NN sees:")
     #trinärumformung
     datenlänge=len(daten)
     for i in range(0, datenlänge):
-        var = sigmoid(float(daten[i]))
+        var = base.sigmoid(float(daten[i]))
         if float(var)==1:
             print("+")
         if float(var)==-1:
@@ -244,47 +185,26 @@ def triffLiveVoraussage(nameKurs, nameNN):
         print("you should bet: -")
     if voraus==0:
         print("you should bet: 0")
-    
-#eigentlich nur die Funktion getGesamt mit Ausgabe
-def useGetGesamt(nameKurs, nameNN):
-    #Einlesen der Tabelle "kurs.csv" als kurs
-    kurs = []
-    kurs = readTable(str(nameKurs))
 
-    #Einlesender Tabelle "NN.csv" als NN
-    NN = []
-    NN = readTable(str(nameNN))
-
-    #zum Beobachten
-    gesamt = 0
-    
-    gesamt = getGesamt(kurs, NN)
-
-    prozentGesamt = ((gesamt+(len(kurs)-10))/(2*(len(kurs)-10)))*100
-
-    print("gesamt: " + str(prozentGesamt))
-
-
-
-
-########################################################    lernprozess
+#lernprozess
+#dabei werden alle Synapsen von einem Neuronen verbessert
 def trainNNlayer(nameKurs, nameNN, distance):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
-    kurs = readTable(str(nameKurs))
+    kurs = base.readTable(str(nameKurs))
 
     #Einlesender Tabelle "NN.csv" als NN
     NN = []
-    NN = readTable(str(nameNN))
-
+    NN = base.readTable(str(nameNN))
+    
     #wie lange soll es trainiert werden
     counter = 1+int(input("how long: "))
-    changes = 0
+    
+    gesamt = getGesamt(kurs, NN)
 
     #wiedeholung bis counter
     for i in range(1, counter):
         print ('#', end="", flush=True)
-        gesamt = getGesamt(kurs, NN)
         #Bestimmen der Neuronenreihe per zufall
         x = randint(0, len(NN)-1)
 
@@ -302,48 +222,47 @@ def trainNNlayer(nameKurs, nameNN, distance):
                 
         #wenn es besser geworden ist
         #print(str(ngesamt)+ " > " +str(gesamt))
-        if (ngesamt > gesamt) == False:
+        if ngesamt <= gesamt:
             pass
             #nimm das gesicherte
             for p in range(0, len(NN[x])):
                 #python ist dummmmmmmmmmmmm af
                 alt = save[p]
                 NN[x][p] = alt
-        
-        if (i%50)==0:
+        else:
+            gesamt=ngesamt
+
+            NN = base.secureNN(NN)
+
             #die Änderungen von NN werden als .csv gespeichert
             writer = csv.writer(open(str(nameNN), 'w', newline=''))
             writer.writerows(NN)
 
             print()
             print(str(i) + " / " + str(counter-1))
-            print("gesammt: " + str(((gesamt+(len(kurs)-10))/(2*(len(kurs)-10)))*100))
+            print("gesammt: " + str(gesamt))
 
             print()
-            changes = 0 
 
-
-
-
-
-########################################################    lernprozess
+#lernprozess
+#dabei wird nur eine Syapse verbessert
 def trainNNneuron(nameKurs, nameNN, distance):
     #Einlesen der Tabelle "kurs.csv" als kurs
     kurs = []
-    kurs = readTable(str(nameKurs))
+    kurs = base.readTable(str(nameKurs))
 
     #Einlesender Tabelle "NN.csv" als NN
     NN = []
-    NN = readTable(str(nameNN))
+    NN = base.readTable(str(nameNN))
 
     #wie lange soll es trainiert werden
     counter = 1+int(input("how long: "))
-    changes = 0
+
+    gesamt = getGesamt(kurs, NN)
 
     #wiedeholung bis counter
     for i in range(1, counter):
         print ('#', end="", flush=True)
-        gesamt = getGesamt(kurs, NN)
         #Bestimmen der Neuronenreihe per zufall
         x = randint(0, len(NN)-1)
         y = randint(0, len(NN[x])-1)
@@ -362,18 +281,18 @@ def trainNNneuron(nameKurs, nameNN, distance):
                 
         #wenn es besser geworden ist
         #print(str(ngesamt)+ " > " +str(gesamt))
-        if ngesamt < gesamt:
+        if ngesamt <= gesamt:
             #nimm das gesicherte
             NN[x][y] = save
+        else:
+            gesamt = ngesamt
 
-        if (i%50)==0:
             #die Änderungen von NN werden als .csv gespeichert
-            writer = csv.writer(open(str(nameNN), 'w', newline=''))
-            writer.writerows(NN)
+            NN = base.secureNN(NN)
 
-            print()
-            print(str(i) + " / " + str(counter-1))
-            print("gesammt: " + str(((gesamt+(len(kurs)-10))/(2*(len(kurs)-10)))*100))
+    writer = csv.writer(open(str(nameNN), 'w', newline=''))
+    writer.writerows(NN)
+    print()
+    print("gesammt: " + str(gesamt))
 
-            print()
-            changes = 0 
+    print()
