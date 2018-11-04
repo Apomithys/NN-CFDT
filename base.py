@@ -64,7 +64,8 @@ def secureNN(NNarr):
     if len(NNarr)>100:
         print('Speicherfehler')
         print(len(NNarr))
-        del NNarr[len(NNarr)][0]
+        print(str(NNarr[len(NNarr)-1]))
+        del NNarr[len(NNarr)-1][0]
         print('Speicherfehler behoben')
     return NNarr
 
@@ -87,3 +88,34 @@ def seperateData(tabelle, t):
         counter += 1
     #ausgabe der daten
     return(data)
+
+#matrixmultiplikation speziell für NN-Gewichtungen
+def layermalweights(layerIn, NN, index):
+    output = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    #wenn man es verstehen will...
+    #schreibtischtest machen!!!!!!!!!
+    #outputlayer ist der outputlayer
+    #inputlayer ist inputlayer
+    #NN ist tabelle mit der Breite 10 und einer Länge von hiddenlayer*10
+    for i in range(0,9):
+        for o in range(0,9):
+            output[i] = output[i] + (float(layerIn[o]) * float(NN[o+index][i]))
+    #ausgabe des outputlayers
+    return(output)
+
+#wetten, dass "nach" neu die "wette" eintritt
+def gues(neu, wette):
+    #binäre Variante
+    out = 0
+    zwi = neu * wette
+    if zwi > 0:
+        out = 1
+    elif zwi < 0:
+        out = -1
+    elif zwi == 0:
+        out = 0
+
+    # #reale Variante
+    # out = float(neu * wette)
+    #ausgabe des gewinns
+    return(out)

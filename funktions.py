@@ -66,49 +66,29 @@ def transformKurs(nameKurs):
     else:
         print("Datei ist bereits formatiert")
 
-#wetten, dass "nach" neu die "wette" eintritt
-def gues(neu, wette):
-    #ausgabe des gewinns
-    return(float(neu * wette))
-
-#matrixmultiplikation speziell für NN-Gewichtungen
-def layermalweights(layerIn, NN, index):
-    output = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    #wenn man es verstehen will...
-    #schreibtischtest machen!!!!!!!!!
-    #outputlayer ist der outputlayer
-    #inputlayer ist inputlayer
-    #NN ist tabelle mit der Breite 10 und einer Länge von hiddenlayer*10
-    for i in range(0,9):
-        for o in range(0,9):
-            output[i] = output[i] + (float(layerIn[o]) * float(NN[o+index][i]))
-        #jedes neuron des outputlayers erfährt noch einmal eine Verarbeitung
-        output[i]=base.sigmoid(output[i])
-    #ausgabe des outputlayers
-    return(output)
-
 #das Neuronale Netz
 #eingabe: name der Datei in der das NN gespeichert ist
 #       : das was das NN als Input bekommt
 #ausgabe: ein Wert (prdiction)
 def NNrechner(layerIn, weightsIn):
-    base.secureNN(weightsIn)
+    #sicherstellen dass es 100 zeilen hat
+    weightsIn = base.secureNN(weightsIn)
     output = 0
-    #anzahl der hidden layer
-    #außerdem wird das Programm schneller
-    length = int(len(weightsIn))
+    for i in range(0, len(layerIn)):
+        layerIn[i] = base.sigmoid(float(layerIn[i]))
     #layer 1 wird geleert
     layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     #vom input zum layer 1 gerechnet (1. hidden layer)
-    layer1 = layermalweights(layerIn, weightsIn, 0)
+    layer1 = base.layermalweights(layerIn, weightsIn, 0)
     #wiederholt für jeden weiteren hidden layer 
     #in 10'ner schritten weil ein hidden layer 10 spalten hat
-    for i in range(10, length, 10):
+    for i in range(10, int(len(weightsIn)), 10):
         #layer2 wird geleert und berechnet
         layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        layer2 = layermalweights(layer1, weightsIn, i)
+        layer2 = base.layermalweights(layer1, weightsIn, i)
         #ergebniss wird an layer 1 weiter gegeben
-        layer1 = layer2
+        for o in range(len(layer2)):
+            layer1[o] = base.sigmoid(layer2[o])
         #so ergibt sich eine Scheife die es möglich mach unenlich lange NN zu bauen
     layerlange=len(layer1)
     for o in range(0, layerlange):
@@ -137,7 +117,7 @@ def getGesamt(kurseingabe, nneingabe):
         realesGeschehen = float(kurseingabe[time][0])
 
         #Berechnung des gewinns
-        gewinn = gues(realesGeschehen, voraussagung)
+        gewinn = base.gues(realesGeschehen, voraussagung)
         # print(str(voraussagung) + " Vorausgesagt")
         # print(str(realesGeschehen) + " Real")
         # print(str(gewinn) + " gewonnen")
@@ -226,9 +206,7 @@ def trainNNlayer(nameKurs, nameNN, distance):
             pass
             #nimm das gesicherte
             for p in range(0, len(NN[x])):
-                #python ist dummmmmmmmmmmmm af
-                alt = save[p]
-                NN[x][p] = alt
+                NN[x][p] = save[p]
         else:
             gesamt=ngesamt
 
@@ -290,9 +268,11 @@ def trainNNneuron(nameKurs, nameNN, distance):
             #die Änderungen von NN werden als .csv gespeichert
             NN = base.secureNN(NN)
 
-    writer = csv.writer(open(str(nameNN), 'w', newline=''))
-    writer.writerows(NN)
-    print()
-    print("gesammt: " + str(gesamt))
+            writer = csv.writer(open(str(nameNN), 'w', newline=''))
+            writer.writerows(NN)
 
-    print()
+            print()
+            print(str(i) + " / " + str(counter-1))
+            print("gesammt: " + str(gesamt))
+
+            print()

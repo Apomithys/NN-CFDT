@@ -14,7 +14,7 @@ synDistance = 2
 print()
 
 #setzt das NN zurück
-base.randomizeNN(nameNN, 10, synDistance)
+#base.randomizeNN(nameNN, 10, synDistance)
 
 
 #liest die Tabellen ein
@@ -53,6 +53,7 @@ print(str(funktions.getGesamt(kurs, NeuNet)))
 print()
 
 print("start 'triffLiveVoraussage'")
+funktions.triffLiveVoraussage(nameKurs, nameNN)
 
 print()
 print("process ended")
