@@ -16,15 +16,14 @@ print()
 #setzt das NN zurück
 #base.randomizeNN(nameNN, 10, synDistance)
 
-
-#liest die Tabellen ein
-kurs = base.readTable(nameKurs)
-NeuNet = base.readTable(nameNN)
-
 #formartiert die datei mit den historischen Kursdaten
 print("start 'transformKurs'")
 funktions.transformKurs(nameKurs)
 print()
+
+#liest die Tabellen ein
+kurs = base.readTable(nameKurs)
+NeuNet = base.readTable(nameNN)
 
 #gibt den Gewinn des NN au sden es am Markt machen würde
 #bzw. wie oft es richtig lag
@@ -35,18 +34,17 @@ print()
 inp = str(input("what do you want? "))
 if inp=="layer":
     print("start 'trainNNlayer'")
-    funktions.trainNNlayer(nameKurs, nameNN, float(synDistance))
+    NeuNet = funktions.trainNNlayer(kurs, NeuNet, float(synDistance))
     print()
 elif inp=="neuron":
     print("start 'trainNNneuron'")
-    funktions.trainNNneuron(nameKurs, nameNN, float(synDistance))
+    NeuNet = funktions.trainNNneuron(kurs, NeuNet, float(synDistance))
     print()
 else:
     print("pass")
 
-#liest die Tabellen ein
-kurs = base.readTable(nameKurs)
-NeuNet = base.readTable(nameNN)
+base.saveArray(NeuNet, nameNN)
+
 
 print("start 'getGesamt'")
 print(str(funktions.getGesamt(kurs, NeuNet)))

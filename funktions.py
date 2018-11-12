@@ -1,7 +1,6 @@
 #import stuff
 print("importing stuff...")
 import base
-
 import random
 from random import randint
 import time
@@ -59,9 +58,7 @@ def transformKurs(nameKurs):
         #löscht die 2. Spalte weil die nicht mehr benötigt wird und nur verwirrt...
         for i in range(0, lengthx):
             del newKurs[i][1]
-        # die Änderungen von NN werden als .csv gespeichert
-        writer = csv.writer(open(nameKurs, 'w', newline=''))
-        writer.writerows(newKurs)
+        base.saveArray(newKurs, nameKurs)
         print("Kursdatei formatiert")
     else:
         print("Datei ist bereits formatiert")
@@ -168,111 +165,93 @@ def triffLiveVoraussage(nameKurs, nameNN):
 
 #lernprozess
 #dabei werden alle Synapsen von einem Neuronen verbessert
-def trainNNlayer(nameKurs, nameNN, distance):
-    #Einlesen der Tabelle "kurs.csv" als kurs
-    kurs = []
-    kurs = base.readTable(str(nameKurs))
-
-    #Einlesender Tabelle "NN.csv" als NN
-    NN = []
-    NN = base.readTable(str(nameNN))
+def trainNNlayer(kurs, NeuNet, distance):
     
     #wie lange soll es trainiert werden
     counter = 1+int(input("how long: "))
     
-    gesamt = getGesamt(kurs, NN)
+    gesamt = getGesamt(kurs, NeuNet)
 
     #wiedeholung bis counter
     for i in range(1, counter):
         print ('#', end="", flush=True)
         #Bestimmen der Neuronenreihe per zufall
-        x = randint(0, len(NN)-1)
+        x = randint(0, len(NeuNet)-1)
 
         #sichern damit nichts kaputt geht
-        save = [NN[x][0], NN[x][1], NN[x][2], NN[x][3], NN[x][4], NN[x][5], NN[x][6], NN[x][7], NN[x][8], NN[x][9]]
+        save = [NeuNet[x][0], NeuNet[x][1], NeuNet[x][2], NeuNet[x][3], NeuNet[x][4], NeuNet[x][5], NeuNet[x][6], NeuNet[x][7], NeuNet[x][8], NeuNet[x][9]]
         
         rand = random.uniform(-float(distance), float(distance))
         #änderung an allen Neuronen
-        for y in range(0, len(NN[x])):
+        for y in range(0, len(NeuNet[x])):
             # NN[x][y] = -float(NN[x][y])
             # NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
-            NN[x][y] = float(NN[x][y]) + rand
+            NeuNet[x][y] = float(NeuNet[x][y]) + rand
         #ermitteln des neuen gewinns
-        ngesamt = getGesamt(kurs, NN)
+        ngesamt = getGesamt(kurs, NeuNet)
                 
         #wenn es besser geworden ist
         #print(str(ngesamt)+ " > " +str(gesamt))
         if ngesamt <= gesamt:
             pass
             #nimm das gesicherte
-            for p in range(0, len(NN[x])):
-                NN[x][p] = save[p]
+            for p in range(0, len(NeuNet[x])):
+                NeuNet[x][p] = save[p]
         else:
             gesamt=ngesamt
 
-            NN = base.secureNN(NN)
-
-            #die Änderungen von NN werden als .csv gespeichert
-            writer = csv.writer(open(str(nameNN), 'w', newline=''))
-            writer.writerows(NN)
+            NeuNet = base.secureNN(NeuNet)
 
             print()
             print(str(i) + " / " + str(counter-1))
             print("gesammt: " + str(gesamt))
 
             print()
+    return NeuNet
 
 #lernprozess
 #dabei wird nur eine Syapse verbessert
-def trainNNneuron(nameKurs, nameNN, distance):
-    #Einlesen der Tabelle "kurs.csv" als kurs
-    kurs = []
-    kurs = base.readTable(str(nameKurs))
-
-    #Einlesender Tabelle "NN.csv" als NN
-    NN = []
-    NN = base.readTable(str(nameNN))
+def trainNNneuron(kurs, NeuNet, distance):
 
     #wie lange soll es trainiert werden
     counter = 1+int(input("how long: "))
 
-    gesamt = getGesamt(kurs, NN)
+    gesamt = getGesamt(kurs, NeuNet)
 
     #wiedeholung bis counter
     for i in range(1, counter):
         print ('#', end="", flush=True)
         #Bestimmen der Neuronenreihe per zufall
-        x = randint(0, len(NN)-1)
-        y = randint(0, len(NN[x])-1)
+        x = randint(0, len(NeuNet)-1)
+        y = randint(0, len(NeuNet[x])-1)
 
         #sichern damit nichts kaputt geht
         save = 0
-        save = NN[x][y]
+        save = NeuNet[x][y]
 
         #änderung an dem Neuron
         rand = random.uniform(-float(distance), float(distance))
         # NN[x][y] = -float(NN[x][y])
         # NN[x][y] = float(NN[x][y]) + random.uniform(-float(distance), float(distance))
-        NN[x][y] = float(NN[x][y]) + rand
+        NeuNet[x][y] = float(NeuNet[x][y]) + rand
         #ermitteln des neuen gewinns
-        ngesamt = getGesamt(kurs, NN)
+        ngesamt = getGesamt(kurs, NeuNet)
                 
         #wenn es besser geworden ist
         #print(str(ngesamt)+ " > " +str(gesamt))
         if ngesamt <= gesamt:
             #nimm das gesicherte
-            NN[x][y] = save
+            NeuNet[x][y] = save
         else:
             gesamt = ngesamt
-
+            
             #die Änderungen von NN werden als .csv gespeichert
-            NN = base.secureNN(NN)
-
-            writer = csv.writer(open(str(nameNN), 'w', newline=''))
-            writer.writerows(NN)
+            NeuNet = base.secureNN(NeuNet)
 
             print()
             print(str(i) + " / " + str(counter-1))
             print("gesammt: " + str(gesamt))
 
             print()
+    
+    return NeuNet

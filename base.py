@@ -119,3 +119,8 @@ def gues(neu, wette):
     # out = float(neu * wette)
     #ausgabe des gewinns
     return(out)
+
+#speichert das NN in ein .csv File
+def saveArray(array, csvname):
+    writer = csv.writer(open(str(csvname), 'w', newline=''))
+    writer.writerows(array)
