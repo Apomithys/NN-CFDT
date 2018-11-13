@@ -126,14 +126,7 @@ def getGesamt(kurseingabe, nneingabe):
 
 #trifft voraussage für den nächsten Zeitabschnitt
 #nimmt sich die neusten Daten
-def triffLiveVoraussage(nameKurs, nameNN):
-    #Einlesen der Tabelle "kurs.csv" als kurs
-    kurs = []
-    kurs = base.readTable(str(nameKurs))
-
-    #Einlesender Tabelle "NN.csv" als NN
-    NN = []
-    NN = base.readTable(str(nameNN))
+def triffLiveVoraussage(kurs, NeuNet):
 
     #heißt für den neusten Wert
     time = 0
@@ -154,7 +147,7 @@ def triffLiveVoraussage(nameKurs, nameNN):
             print("0")
 
     #Berechnung der Voraussage
-    voraus = NNrechner(daten, NN)
+    voraus = NNrechner(daten, NeuNet)
     #trinärumformung
     if voraus>0:
         print("you should bet: +")

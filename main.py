@@ -1,5 +1,5 @@
 #importiert die Funktionen
-import funktions
+import NNCFDT
 import base
 
 #eingabe
@@ -18,7 +18,7 @@ print()
 
 #formartiert die datei mit den historischen Kursdaten
 print("start 'transformKurs'")
-funktions.transformKurs(nameKurs)
+NNCFDT.transformKurs(nameKurs)
 print()
 
 #liest die Tabellen ein
@@ -28,17 +28,17 @@ NeuNet = base.readTable(nameNN)
 #gibt den Gewinn des NN au sden es am Markt machen würde
 #bzw. wie oft es richtig lag
 print("start 'getGesamt'")
-print(str(funktions.getGesamt(kurs, NeuNet)))
+print(str(NNCFDT.getGesamt(kurs, NeuNet)))
 print()
 
 inp = str(input("what do you want? "))
 if inp=="layer":
     print("start 'trainNNlayer'")
-    NeuNet = funktions.trainNNlayer(kurs, NeuNet, float(synDistance))
+    NeuNet = NNCFDT.trainNNlayer(kurs, NeuNet, float(synDistance))
     print()
 elif inp=="neuron":
     print("start 'trainNNneuron'")
-    NeuNet = funktions.trainNNneuron(kurs, NeuNet, float(synDistance))
+    NeuNet = NNCFDT.trainNNneuron(kurs, NeuNet, float(synDistance))
     print()
 else:
     print("pass")
@@ -47,11 +47,11 @@ base.saveArray(NeuNet, nameNN)
 
 
 print("start 'getGesamt'")
-print(str(funktions.getGesamt(kurs, NeuNet)))
+print(str(NNCFDT.getGesamt(kurs, NeuNet)))
 print()
 
 print("start 'triffLiveVoraussage'")
-funktions.triffLiveVoraussage(nameKurs, nameNN)
+NNCFDT.triffLiveVoraussage(kurs, NeuNet)
 
 print()
 print("process ended")

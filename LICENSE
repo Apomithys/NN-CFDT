@@ -1,15 +1,21 @@
-LICENSE by Pascal Schoppenhauer
-to the project "NN-CFDT"
+                              MIT License
 
-  The howle project including the LICENSE can be changed by Pascal Schoppenhauer.
-He is allso the owner of the code. Only Pascal Schoppenhauer can give permissions
-to use, change, copy or share it. He is allso allowed to give some people permissions
-to give permissions.
+                    Copyright (c) 2018 NNCFDT.py
 
-  All people that are allowed to give permissions to use, change, copy or share it
-are listed in the folliwing:
+Permission is hereby granted, free of charge, to any person obtaining a 
+copy of this software and associated documentation files (the "Software"), 
+to deal in the Software without restriction, including without limitation 
+the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
 
-Pascal Schoppenhauer
-Linus Hagemann
-Alexander Hoerig
-Paula Zimmermann
+The above copyright notice and this permission notice shall be included 
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
