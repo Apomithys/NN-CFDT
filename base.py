@@ -29,20 +29,20 @@ def randomizeNN(nameNN, index, distance):
 #sigmoud funktion
 #nicht wirklich (nur vrearbeitung des Inputs)
 def sigmoid(x):
-    #0 means unentschlossen
-    out=0
-    if x>0:
-        #1 heoßt steigen
-        out=1
-    if x<0:
-        #-1 heißt fallend
-        out=-1
-    #es kann aber auch 0 raus kommen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #führt möglicher weise zu problemen `\_O_/´
-    #ausgabe
+    # #0 means unentschlossen
+    # out=0
+    # if x>0:
+    #     #1 heoßt steigen
+    #     out=1
+    # if x<0:
+    #     #-1 heißt fallend
+    #     out=-1
+    # #es kann aber auch 0 raus kommen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # #führt möglicher weise zu problemen `\_O_/´
+    # #ausgabe
     
-    # #echte sigmoid Funktion
-    # out = 1 / (1 + math.exp(-x))
+    #echte sigmoid Funktion
+    out = ((1 / (1 + math.exp(-x)))-0.5)*2
 
     return out
 

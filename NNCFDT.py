@@ -3,9 +3,6 @@ print("importing stuff...")
 import base
 import random
 from random import randint
-import time
-import csv
-import math
 
 ########################################################    Funktions
 
@@ -23,7 +20,7 @@ def transformKurs(nameKurs):
         lengthx = len(newKurs)
         lengthy = len(newKurs[0])
         #tabelle mit 0'en erstellen
-        #das muss besser gehen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #das muss besser gehen!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         #wiederhole für jede zeile und Spalte
         for i in range(0, lengthx):
             for o in range(0, lengthy):
@@ -32,6 +29,10 @@ def transformKurs(nameKurs):
         #print(newKurs)
         #steigung wrird berechnet und in 0 gepackt
         for i in range(1, lengthx-1):
+            #das ist der wichtige Stuff!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            #formel so umstellen dass der Prozentuale Anstieg berechnet wird
+            #alter Wert: float(kurs[i][4])
+            #neuerer Wert: float(kurs[i+1][4])
             newKurs[i-1][0] = float(kurs[i+1][4]) - float(kurs[i][4])
         #packt die daten von 4 zu 1
         for i in range(1, lengthx):
@@ -68,9 +69,10 @@ def transformKurs(nameKurs):
 #       : das was das NN als Input bekommt
 #ausgabe: ein Wert (prdiction)
 def NNrechner(layerIn, weightsIn):
-    #sicherstellen dass es 100 zeilen hat
+    #sicherstellen dass NN es 100 zeilen hat
     weightsIn = base.secureNN(weightsIn)
     output = 0
+    #Input wird verarbeitet
     for i in range(0, len(layerIn)):
         layerIn[i] = base.sigmoid(float(layerIn[i]))
     #layer 1 wird geleert
@@ -80,11 +82,12 @@ def NNrechner(layerIn, weightsIn):
     #wiederholt für jeden weiteren hidden layer 
     #in 10'ner schritten weil ein hidden layer 10 spalten hat
     for i in range(10, int(len(weightsIn)), 10):
-        #layer2 wird geleert und berechnet
+        #layer2 wird geleert und berechnet mit layer1
         layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         layer2 = base.layermalweights(layer1, weightsIn, i)
         #ergebniss wird an layer 1 weiter gegeben
-        for o in range(len(layer2)):
+        for o in range(len(layer1)):
+            #ausgabe wird verarbeitet
             layer1[o] = base.sigmoid(layer2[o])
         #so ergibt sich eine Scheife die es möglich mach unenlich lange NN zu bauen
     layerlange=len(layer1)
@@ -93,6 +96,8 @@ def NNrechner(layerIn, weightsIn):
         pass
         output = output + layer1[o]
     #output wird noch einmal bearbeitet
+    #aber nur der eine wert
+    #also der letzte Layer
     output = base.sigmoid(output)
     #ausgabe
     return(output)
@@ -138,23 +143,10 @@ def triffLiveVoraussage(kurs, NeuNet):
     #trinärumformung
     datenlänge=len(daten)
     for i in range(0, datenlänge):
-        var = base.sigmoid(float(daten[i]))
-        if float(var)==1:
-            print("+")
-        if float(var)==-1:
-            print("-")
-        if float(var)==0:
-            print("0")
+        print(base.sigmoid(float(daten[i])))
 
     #Berechnung der Voraussage
-    voraus = NNrechner(daten, NeuNet)
-    #trinärumformung
-    if voraus>0:
-        print("you should bet: +")
-    if voraus<0:
-        print("you should bet: -")
-    if voraus==0:
-        print("you should bet: 0")
+    print("prediction: " + str(NNrechner(daten, NeuNet)))
 
 #lernprozess
 #dabei werden alle Synapsen von einem Neuronen verbessert

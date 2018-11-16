@@ -14,7 +14,9 @@ synDistance = 2
 print()
 
 #setzt das NN zurück
-#base.randomizeNN(nameNN, 10, synDistance)
+if input("want to reset NN? y/n: ")=="y":
+    pass
+    base.randomizeNN(nameNN, 10, synDistance)
 
 #formartiert die datei mit den historischen Kursdaten
 print("start 'transformKurs'")
