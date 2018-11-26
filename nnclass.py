@@ -10,7 +10,10 @@ class NeuNet:
     
     knowledge = 0
     arrayNN = []
+    NNlength = 100
+    NNweigth = 10
     distance = 2
+    nameCSV = "nngoog91.csv"
 
     #sigmoud funktion
     #nicht wirklich (nur vrearbeitung des Inputs)
@@ -21,25 +24,25 @@ class NeuNet:
         return out
 
     # Einlesen des NN aus einer CSV
-    def readIn(self, nameCSV):
-        self.arrayNN = base.readTable(nameCSV)
+    def readIn(self):
+        self.arrayNN = base.readTable(self.nameCSV)
     
     # Exportieren des NN in eine CSV
-    def saveOut(self, nameCSV):
-        base.saveArray(self.arrayNN, nameCSV)
+    def saveOut(self):
+        base.saveArray(self.arrayNN, self.nameCSV)
 
     # Setzt NN zurück
     def resetNN(self):
         if input('resetNN: ') == 'y':
-            for i in range(0, 99):
-                for o in range(0, 9):
+            for i in range(0, self.NNlength):
+                for o in range(0, self.NNweigth):
                     self.arrayNN[i][o] = float(random.uniform(-self.distance, self.distance))
-        print("done reset NN")
+            print("done reset NN")
 
     # Zieht einen Layer des NN
     def getOneLayer(self, index):
         theLayer = []
-        for i in range(index, index+10):
+        for i in range(index, index+self.NNweigth):
             theLayer.append(self.arrayNN[i])
         return theLayer
 
@@ -47,38 +50,42 @@ class NeuNet:
     # keine richtige Matrixmultiplikation
     # sollte nicht in main benutz werden
     def layermalweights(self, layerIn, wightsIn):
-        output = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        for i in range(0,9):
-            for o in range(0,9):
+        output = [0] * (self.NNweigth)
+        for i in range(0, self.NNweigth):
+            for o in range(0, self.NNweigth):
                 output[i] = output[i] + (float(layerIn[o]) * float(wightsIn[o][i]))
         #ausgabe des outputlayers
         return(output)
 
     # Voraussage nach 10 Tagen (input)
-    def predict(self, daten):
+    def predict(self, daten, show=None):
         output = 0
         #Input wird verarbeitet
         for i in range(0, len(daten)):
+            if show=="input":
+                print(daten[i])
             daten[i] = self.sigmoid(float(daten[i]))
+        if show=="input":
+            print()    
         #layer 1 wird geleert
-        layer1 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        layer1 = [0] * (self.NNweigth)
         #vom input zum layer 1 gerechnet (1. hidden layer)
         wigthsLayer = self.getOneLayer(0)
         layer1 = self.layermalweights(daten, wigthsLayer)
         #wiederholt für jeden weiteren hidden layer 
-        #in 10'ner schritten weil ein hidden layer 10 spalten hat
-        for i in range(10, int(len(self.arrayNN)), 10):
+        # einen hat es schon gemacht
+        # arbeitet sich für jeden layer weiter
+        for i in range(self.NNweigth, self.NNlength, self.NNweigth):
             #layer2 wird geleert und berechnet mit layer1
-            layer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+            layer2 = [0] * (self.NNweigth)
             wigthsLayer = self.getOneLayer(i)
             layer2 = self.layermalweights(layer1, wigthsLayer)
             #ergebniss wird an layer 1 weiter gegeben
-            for o in range(len(layer1)):
+            for o in range(0, self.NNweigth):
                 #ausgabe wird verarbeitet
                 layer1[o] = self.sigmoid(layer2[o])
             #so ergibt sich eine Scheife die es möglich mach unenlich lange NN zu bauen
-        layerlange=len(layer1)
-        for o in range(0, layerlange):
+        for o in range(0, self.NNweigth):
             #output darf nur ein wert sein
             pass
             output = output + layer1[o]
@@ -114,14 +121,17 @@ class NeuNet:
         return gesamt
 
     # Trainiert NN (neuron)
-    def train(self, kurs, counter):
-
+    def train(self, kurs, counter, timestat=False, trainingstat=False):
+        lastLoadBlock = 0
         startKnowledge = self.getKnowledge(kurs)
 
         #wiedeholung bis counter
         for i in range(1, counter):
-            if (i%(counter/100))==0:
-                print ('█', end="", flush=True)
+            if timestat!=False:
+                lastLoadBlock+=1
+                if (lastLoadBlock>counter/55):
+                    print ('█', end="", flush=True)
+                    lastLoadBlock = 0
             #Bestimmen der Neuronenreihe per zufall
             x = randint(0, len(self.arrayNN)-1)
             y = randint(0, len(self.arrayNN[x])-1)
@@ -145,8 +155,9 @@ class NeuNet:
                 #wissenstand neu
                 startKnowledge = newKnowledge
                 #wenn es besser geworden ist belasse es dabei
-                print()
-                print(str(i) + " / " + str(counter-1))
-                print("gesammt: " + str(newKnowledge))
+                if trainingstat!=False:
+                    print()
+                    print(str(i) + " / " + str(counter-1))
+                    print("gesammt: " + str(newKnowledge))
 
-                print()
+                    print()

@@ -4,35 +4,37 @@ import kursclass
 
 # Einlesen der Kurstabelle
 kurs = kursclass.SPkurs()
-kurs.readKurs("goog.csv")
+kurs.downloadKurs()
+kurs.readKurs()
 kurs.transformKurs()
 
 # Initialisierung von NeuNet als nnclass Objekt
 NeuNet = nnclass.NeuNet()
 
 # Einlesen der CSV für NeuNet
-NeuNet.readIn("nngoog91.csv")
+NeuNet.readIn()
 
 # Zurücksetzten den NeuNet
 NeuNet.resetNN()
 
 # Wissenstand des NeuNet
-print(NeuNet.getKnowledge(kurs.kursArray))
+print(NeuNet.getKnowledge(kurs.getTestData()))
 
 # Letzten 10 Tage des Kurses --> Daten
-daten = base.seperateData(kurs.kursArray, len(kurs.kursArray)-0)
+daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-0)
 
 # Triff Voraussagung nach Daten
-print(NeuNet.predict(daten))
+print("prediction: " + str(NeuNet.predict(daten)))
 
 # Trainliere NeuNet
-NeuNet.train(kurs.kursArray, int(input("train: ")))
+NeuNet.train(kurs.getTrainData(), int(input("train: ")), timestat=True)
 
 # Wissenstand des NeuNet
-print("\n" + str(NeuNet.getKnowledge(kurs.kursArray)))
+print("\n" + "wissenstand: " + str(NeuNet.getKnowledge(kurs.getTestData())) + "\n")
 
 # Speichere es in CSV
-NeuNet.saveOut("nngoog91.csv")
+NeuNet.saveOut()
 
-daten = base.seperateData(kurs.kursArray, len(kurs.kursArray)-0)
-print(NeuNet.predict(daten))
+# Voraussagung
+daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-0)
+print(NeuNet.predict(daten, show="input"))
