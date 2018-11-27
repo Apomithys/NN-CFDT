@@ -41,12 +41,13 @@ def seperateData(tabelle, t):
     return(data)
 
 #wetten, dass "nach" neu die "wette" eintritt
-def gues(neu, wette):
+def gues(neu, wette, nominus=False):
     #binäre Variante
     out = 0
     zwi = neu * wette
     if zwi > 0:
         out = 1
     elif zwi < 0:
-        out = -1
+        if nominus==False:
+            out = -1
     return(out)

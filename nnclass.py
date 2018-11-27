@@ -114,17 +114,18 @@ class NeuNet:
             realesGeschehen = float(kurs[time][0])
 
             #Berechnung des gewinns
-            gewinn = base.gues(realesGeschehen, voraussagung)
+            gewinn = base.gues(realesGeschehen, voraussagung, nominus=True)
 
             #gewinn wird dem gesammtgewinn zugerechnet
             gesamt = gesamt + gewinn
-        return gesamt
+        self.knowledge = gesamt
+        return self.knowledge
 
     # Trainiert NN (neuron)
     def train(self, kurs, counter, timestat=False, trainingstat=False):
-        lastLoadBlock = 0
         startKnowledge = self.getKnowledge(kurs)
-
+        
+        lastLoadBlock = 0
         #wiedeholung bis counter
         for i in range(1, counter):
             if timestat!=False:
