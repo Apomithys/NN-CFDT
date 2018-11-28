@@ -1,10 +1,13 @@
 import nnclass
 import base
 import kursclass
+import matplotlib.pyplot as plt
+learningstats = []
 
 # Einlesen der Kurstabelle
 kurs = kursclass.SPkurs()
-#kurs.downloadKurs()
+if input("downloading?: ")=="y":
+    kurs.downloadKurs()
 kurs.readKurs()
 kurs.transformKurs()
 
@@ -21,10 +24,23 @@ NeuNet.resetNN()
 daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-0)
 
 # Trainliere NeuNet
-NeuNet.train(kurs.getAllData(), int(input("train: ")), timestat=True)
+trainlength = int(input("train: "))
+for i in range(0, trainlength):
+    if(i == 0):
+        for i in range(0, trainlength):
+            print("#", end="", flush=True)
+        print("\n")
+    NeuNet.train(kurs.getAllData())
+    learned = NeuNet.getKnowledge(kurs.getTestData())
+    learningstats.append(learned)
+    print("#", end="", flush=True)
+
+plt.plot(learningstats)
+plt.ylabel('some numbers')
+plt.show()
 
 # Wissenstand des NeuNet
-print("\n" + "wissenstand: " + str(NeuNet.getKnowledge(kurs.getTestData())) + " %" + "\n")
+print("\n" + "wissensindex: " + str(NeuNet.getKnowledge(kurs.getTestData())) + "\n")
 
 # Speichere es in CSV
 NeuNet.saveOut()

@@ -87,8 +87,8 @@ class SPkurs:
         for i in range(len(self.allData)-110):
             del self.testData[0]
         # trainData sind alle anderen Daten
-        for i in range((len(self.allData)), (len(self.allData)-110), -1):
-            del self.trainData[i]
+        #for i in range((len(self.allData)), (len(self.allData)-110), -1):
+        #    del self.trainData[i]
 
     # Gibt Kursdaten zum Testen eines NN aus
     def getTestData(self):

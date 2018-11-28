@@ -48,6 +48,5 @@ def gues(neu, wette, nominus=False):
     if zwi > 0:
         out = 1
     elif zwi < 0:
-        if nominus==False:
-            out = -1
-    return(out)
+        out = -1
+    return(zwi)
