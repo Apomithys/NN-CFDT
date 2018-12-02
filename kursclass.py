@@ -84,11 +84,11 @@ class SPkurs:
         self.trainData = list(self.allData)
         self.testData = list(self.allData)
         # testData sind die letzten 100 Tage
-        for i in range(len(self.allData)-110):
+        for i in range(0, len(self.allData)-110):
             del self.testData[0]
         # trainData sind alle anderen Daten
-        #for i in range((len(self.allData)), (len(self.allData)-110), -1):
-        #    del self.trainData[i]
+        for i in range(len(self.allData), (len(self.allData)-110), -1):
+           del self.trainData[i-1]
 
     # Gibt Kursdaten zum Testen eines NN aus
     def getTestData(self):

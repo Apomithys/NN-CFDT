@@ -2,7 +2,12 @@ import nnclass
 import base
 import kursclass
 import matplotlib.pyplot as plt
+from matplotlib import style
+
+style.use('fivethirtyeight')
+
 learningstats = []
+visuallearn = []
 
 # Einlesen der Kurstabelle
 kurs = kursclass.SPkurs()
@@ -12,7 +17,7 @@ kurs.readKurs()
 kurs.transformKurs()
 
 # Initialisierung von NeuNet als nnclass Objekt
-NeuNet = nnclass.NeuNet()
+NeuNet = nnclass.NeuNet("nngoog91.csv")
 
 # Einlesen der CSV für NeuNet
 NeuNet.readIn()
@@ -30,13 +35,17 @@ for i in range(0, trainlength):
         for i in range(0, trainlength):
             print("#", end="", flush=True)
         print("\n")
-    NeuNet.train(kurs.getAllData())
+    #NeuNet.train(kurs.getAllData(), type="Layer")
+    NeuNet.train(kurs.getAllData(), type="Neuron")
+    NeuNet.saveOut()
     learned = NeuNet.getKnowledge(kurs.getTestData())
+    visuallearn.append(NeuNet.getKnowledge(kurs.getTrainData()))
     learningstats.append(learned)
     print("#", end="", flush=True)
 
 plt.plot(learningstats)
-plt.ylabel('some numbers')
+plt.plot(visuallearn)
+plt.ylabel('knowledge')
 plt.show()
 
 # Wissenstand des NeuNet
@@ -47,4 +56,4 @@ NeuNet.saveOut()
 
 # Voraussagung
 daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-0)
-print(NeuNet.predict(daten, show="input"))
+print(NeuNet.predict(daten, chart="input"))

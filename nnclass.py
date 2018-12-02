@@ -4,15 +4,18 @@ import base
 import random
 from random import randint
 import math
+import matplotlib.pyplot as plt
 
 
 class NeuNet:
     
+    def __init__(self, nameCSV):
+        self.nameCSV = nameCSV
+
     arrayNN = []
     NNlength = 100
     NNweigth = 10
     distance = 2
-    nameCSV = "nngoog91.csv"
     learningstats = []
 
     # sigmoud funktion
@@ -31,13 +34,19 @@ class NeuNet:
         base.saveArray(self.arrayNN, self.nameCSV)
 
     # Setzt NN zurück
-    def resetNN(self):
-        # ich glaube das geht besser
-        if input('resetNN: ') == 'y':
+    def resetNN(self, ask=True):
+        if ask==True:
+            # ich glaube das geht besser
+            if input('resetNN: ') == 'y':
+                for i in range(0, self.NNlength):
+                    for o in range(0, self.NNweigth):
+                        self.arrayNN[i][o] = float(random.uniform(-self.distance, self.distance))
+                print("done reset NN")
+        else:
             for i in range(0, self.NNlength):
                 for o in range(0, self.NNweigth):
                     self.arrayNN[i][o] = float(random.uniform(-self.distance, self.distance))
-            print("done reset NN")
+
 
     # gibt einen Layer des NN aus
     def getOneLayer(self, index):
@@ -59,15 +68,19 @@ class NeuNet:
 
     # Voraussage nach 10 Tagen (input)
     # Das Neuronale Netz
-    def predict(self, daten, show=None):
+    def predict(self, daten, chart=None):
         output = 0
+        chartdata = []
+        chartcounter = 0
         # Verarbeitung des Inputs
         for i in range(0, len(daten)):
-            if show=="input":
+            if chart=="input":
                 print(daten[i])
+                chartcounter = chartcounter + daten[i]
+                chartdata.append(chartcounter)
             daten[i] = self.sigmoid(float(daten[i]))
-        if show=="input":
-            print()    
+        if chart=="input":
+            print()
         # Input gelangt in den ersten Layer des NN
         layer1 = [0] * (self.NNweigth)
         wigthsLayer = self.getOneLayer(0)
@@ -88,7 +101,12 @@ class NeuNet:
             # Output ist nur ein Wert
             pass
             output = output + layer1[o]
-        output = self.sigmoid(output)
+        if chart=="input":
+            chartcounter = chartcounter + output
+            chartdata.append(chartcounter)
+            plt.plot(chartdata)
+            plt.ylabel('kurs')
+            plt.show()
         #print(output)
         return(output)
 
@@ -110,23 +128,43 @@ class NeuNet:
             gewinn = base.gues(realesGeschehen, voraussagung)
             # lokaler Gewinn wird dem Gesammtgewinn zugerechnet
             gesamt = gesamt + gewinn
+        gesamt = (gesamt/len(kurs))*100
         return gesamt
 
     # Trainiert Neuronales Netz (nur ein neuron)
-    def train(self, kurs):
+    def train(self, kurs, type=None):
         # Wissensindex vorher
         startKnowledge = self.getKnowledge(kurs)
-        #Bestimmen eines Neuronens per zufall
-        x = randint(0, len(self.arrayNN)-1)
-        y = randint(0, len(self.arrayNN[x])-1)
-        # speichern
-        save = self.arrayNN[x][y]
-        #änderung an dem Neuron vornehmen
-        rand = random.uniform(-float(self.distance), float(self.distance))
-        self.arrayNN[x][y] = float(self.arrayNN[x][y]) + rand
-        # Wissensindex nachher
-        newKnowledge = self.getKnowledge(kurs)
-        # sollte es sich nicht gebessert haben
-        if newKnowledge <= startKnowledge:
-            # nimm den alten Wert wieder an
-            self.arrayNN[x][y] = save
+        newKnowledge = 0
+        if type == "Neuron":
+            # Bestimmen eines Neuronens per zufall
+            x = randint(0, len(self.arrayNN)-1)
+            y = randint(0, len(self.arrayNN[x])-1)
+            # Speichern
+            save = self.arrayNN[x][y]
+            # Änderung an dem Neuron vornehmen
+            rand = random.uniform(-float(self.distance), float(self.distance))
+            self.arrayNN[x][y] = float(self.arrayNN[x][y]) + rand
+            # Wissensindex nachher
+            newKnowledge = self.getKnowledge(kurs)
+            if newKnowledge <= startKnowledge:
+                # nimm den alten Wert wieder an
+                self.arrayNN[x][y] = save
+
+        if type == "Layer":
+            # Python ist DUMMMMMMMMMMMMMM
+            randomArray = []
+            # Bestimmen eines Layers per zufall
+            x=randint(0, len(self.arrayNN)-1)
+            # Speichern
+            save = self.arrayNN[x]
+            # Änderung an dem Layer vornehmen
+            rand = random.uniform(-float(self.distance), float(self.distance))
+            for i in range(0, len(self.arrayNN[x])):
+                randomArray.append(str(float(self.arrayNN[x][i])+rand))
+            self.arrayNN[x] = randomArray
+            # Wissensindex nachher
+            newKnowledge = self.getKnowledge(kurs)
+            if newKnowledge<=startKnowledge:
+                # nimm die alten Werte wieder an
+                self.arrayNN[x] = save
