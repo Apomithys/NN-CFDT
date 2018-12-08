@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 
 class NeuNet:
     
-    def __init__(self, nameCSV):
+    def __init__(self, nameCSV, size=10):
         self.nameCSV = nameCSV
+        self.NNlength = int(size)*10
 
     arrayNN = []
-    NNlength = 100
     NNweigth = 10
     distance = 2
     learningstats = []
@@ -116,6 +116,7 @@ class NeuNet:
         #Zeit
         time = 0
         gesamt = 0
+        koennte = 0
         #gesammt berechnen
         for time in range(10, len(kurs)):
             # Daten für das NN als Eingabelayer sepperiert
@@ -125,13 +126,14 @@ class NeuNet:
             voraussagung = self.predict(daten)
             realesGeschehen = float(kurs[time][0])
             # Berechnung des Gewinns
-            gewinn = base.gues(realesGeschehen, voraussagung)
+            gewinn = base.bewertung(realesGeschehen, voraussagung)
             # lokaler Gewinn wird dem Gesammtgewinn zugerechnet
             gesamt = gesamt + gewinn
-        gesamt = (gesamt/len(kurs))*100
+            koennte = koennte+base.bewertung(realesGeschehen, realesGeschehen)
+        gesamt = (gesamt/koennte)*100
         return gesamt
 
-    # Trainiert Neuronales Netz (nur ein neuron)
+    # Trainiert Neuronales Netz
     def train(self, kurs, type=None):
         # Wissensindex vorher
         startKnowledge = self.getKnowledge(kurs)

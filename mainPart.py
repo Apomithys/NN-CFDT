@@ -7,7 +7,6 @@ from matplotlib import style
 style.use('fivethirtyeight')
 
 learningstats = []
-visuallearn = []
 
 # Einlesen der Kurstabelle
 kurs = kursclass.SPkurs()
@@ -25,9 +24,6 @@ NeuNet.readIn()
 # Zurücksetzten den NeuNet
 NeuNet.resetNN()
 
-# Letzten 10 Tage des Kurses --> Daten
-daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-0)
-
 # Trainliere NeuNet
 trainlength = int(input("train: "))
 for i in range(0, trainlength):
@@ -36,16 +32,14 @@ for i in range(0, trainlength):
             print("#", end="", flush=True)
         print("\n")
     #NeuNet.train(kurs.getAllData(), type="Layer")
-    NeuNet.train(kurs.getAllData(), type="Neuron")
+    NeuNet.train(kurs.getTrainData(), type="Neuron")
     NeuNet.saveOut()
-    learned = NeuNet.getKnowledge(kurs.getTestData())
-    visuallearn.append(NeuNet.getKnowledge(kurs.getTrainData()))
-    learningstats.append(learned)
+    learningstats.append(NeuNet.getKnowledge(kurs.getTestData()))
     print("#", end="", flush=True)
 
-plt.plot(learningstats)
-plt.plot(visuallearn)
+plt.plot(learningstats, label="learning")
 plt.ylabel('knowledge')
+plt.xlabel('time')
 plt.show()
 
 # Wissenstand des NeuNet

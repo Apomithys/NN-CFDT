@@ -27,8 +27,8 @@ def seperateData(tabelle, t):
 # Bewertungsfnktion
 # real: echter Wert
 # x: prediction
-def gues(real, x):
-    maximum = 1
+def bewertung(real, x):
+    maximum = abs(real*real)
     mult = x*real
     if mult>0:
         ausgabe = (-(maximum/(real*real))*(x-real)*(x-real))+maximum
