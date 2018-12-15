@@ -56,8 +56,7 @@ class NeuNet:
             theLayer.append(self.arrayNN[i])
         return theLayer
 
-    # matrixmultiplikation speziell für NN-Gewichtungen
-    # keine richtige Matrixmultiplikation (nochmal testen)
+    # Matrixmultiplikation speziell für NN-Gewichtungen
     def layermalweights(self, layerIn, wightsIn):
         # das ist cool \/
         output = [0] * (self.NNweigth)

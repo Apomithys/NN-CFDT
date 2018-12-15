@@ -1,22 +1,24 @@
-import nnclass
 import base
-import kursclass
+import class_kurs
+import class_nn
 import matplotlib.pyplot as plt
 from matplotlib import style
+import time
+from tqdm import tqdm
 
 style.use('fivethirtyeight')
 
 learningstats = []
 
 # Einlesen der Kurstabelle
-kurs = kursclass.SPkurs()
+kurs = class_kurs.SPkurs()
 if input("downloading?: ")=="y":
     kurs.downloadKurs()
 kurs.readKurs()
 kurs.transformKurs()
 
 # Initialisierung von NeuNet als nnclass Objekt
-NeuNet = nnclass.NeuNet("nngoog91.csv")
+NeuNet = class_nn.NeuNet("nngoog91.csv")
 
 # Einlesen der CSV für NeuNet
 NeuNet.readIn()
@@ -25,17 +27,16 @@ NeuNet.readIn()
 NeuNet.resetNN()
 
 # Trainliere NeuNet
-trainlength = int(input("train: "))
-for i in range(0, trainlength):
-    if(i == 0):
-        for i in range(0, trainlength):
-            print("#", end="", flush=True)
-        print("\n")
+trainlength = int(input("how many iterations: "))
+start = time.time()
+counter=0
+for i in tqdm(range(trainlength)):
+    counter+=1
     #NeuNet.train(kurs.getAllData(), type="Layer")
     NeuNet.train(kurs.getTrainData(), type="Neuron")
-    NeuNet.saveOut()
     learningstats.append(NeuNet.getKnowledge(kurs.getTestData()))
-    print("#", end="", flush=True)
+    if (counter%25)==0:
+        NeuNet.saveOut()
 
 plt.plot(learningstats, label="learning")
 plt.ylabel('knowledge')
