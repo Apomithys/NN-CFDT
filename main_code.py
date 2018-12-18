@@ -41,6 +41,7 @@ for i in tqdm(range(trainlength)):
 plt.plot(learningstats, label="learning")
 plt.ylabel('knowledge')
 plt.xlabel('time')
+plt.legend()
 plt.show()
 
 # Wissenstand des NeuNet
@@ -49,6 +50,12 @@ print("\n" + "wissensindex: " + str(NeuNet.getKnowledge(kurs.getTestData())) + "
 # Speichere es in CSV
 NeuNet.saveOut()
 
+voraussagungen=[]
 # Voraussagung
-daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-0)
-print(NeuNet.predict(daten, chart="input"))
+for i in range(10, 0, -1):
+    daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-i)
+    voraussagungen.append(NeuNet.predict(daten))
+plt.plot(voraussagungen, label='Voraussagungen', marker='o')
+plt.plot(daten, label='echte Daten')
+plt.legend()
+plt.show()
