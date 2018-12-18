@@ -2,10 +2,10 @@
 
 Dieses Projekt unterliegt der MIT-Lizenz.
 
-## Neural Network for Contract For Difference Traiding
+## Neural Network
 
-Dieses Programm ist ein Neuronales Netz, welches den zukünftigen Kursverlauf von einam bestimmten Wertpapier voraussagen soll.
-Es ist in Python geschrieben. Ich habe darauf geachtet möglichst wenige Bibliotheken zu verwenden. Aus dem einfachen Grud, dass dieses Projekt hauptsächlich dazu da ist, dass ich selbst meine "Programmier Skills" verbessere und NN's, ML und Python besser verstehe.
+Dieses Programm ist ein Neuronales Netz, welches den zukünftigen Verlauf eines CSV Datensatzes voraussagen soll. In jeglicher Hinnsicht ist keine Gewähr oder Haftung gegeben.
+Es ist in Python geschrieben. Ich habe darauf geachtet möglichst wenige Bibliotheken zu verwenden. Aus dem einfachen Grud, dass dieses Projekt hauptsächlich dazu da ist, dass ich selbst meine "Programmier Skills" verbessere und NN's, ML und Python besser verstehe. 
 
 ## Documentation
 
