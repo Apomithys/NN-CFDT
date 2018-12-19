@@ -39,7 +39,7 @@ class SPkurs:
         self.readKurs()
 
     # Formatiert rohe Kursdaten von API
-    def transformKurs(self):
+    def transformKurs(self, traintestverhalt=110, datensatzgroesse=510):
         # Einlesen der CSV
         newKurs = base.readTable(str(self.kursIdx)+".csv")
         # Länge des Arrays
@@ -70,10 +70,9 @@ class SPkurs:
         del newKurs[kurstiefe-2]
         kurstiefe=kurstiefe-2
         # Reduziert die Tabelle auf die letzten 500 Tage
-        if kurstiefe>110:
-            while kurstiefe>510:
-                del newKurs[0]
-                kurstiefe=kurstiefe-1
+        while kurstiefe>datensatzgroesse:
+            del newKurs[0]
+            kurstiefe=kurstiefe-1
         for i in range(0, kurstiefe):
             del newKurs[i][1]
         # allData enthällt die verarbeiteten Daten vonn 500 Tagen
@@ -84,10 +83,10 @@ class SPkurs:
         self.trainData = list(self.allData)
         self.testData = list(self.allData)
         # testData sind die letzten 100 Tage
-        for i in range(0, len(self.allData)-110):
+        for i in range(0, len(self.allData)-traintestverhalt):
             del self.testData[0]
         # trainData sind alle anderen Daten
-        for i in range(len(self.allData), (len(self.allData)-110), -1):
+        for i in range(len(self.allData), (len(self.allData)-traintestverhalt), -1):
            del self.trainData[i-1]
 
     # Gibt Kursdaten zum Testen eines NN aus

@@ -15,7 +15,7 @@ kurs = class_kurs.SPkurs()
 if input("downloading?: ")=="y":
     kurs.downloadKurs()
 kurs.readKurs()
-kurs.transformKurs()
+kurs.transformKurs(traintestverhalt=110, datensatzgroesse=510)
 
 # Initialisierung von NeuNet als nnclass Objekt
 NeuNet = class_nn.NeuNet("nngoog91.csv")
@@ -50,12 +50,11 @@ print("\n" + "wissensindex: " + str(NeuNet.getKnowledge(kurs.getTestData())) + "
 # Speichere es in CSV
 NeuNet.saveOut()
 
-voraussagungen=[]
 # Voraussagung
-for i in range(10, 0, -1):
-    daten = base.seperateData(kurs.getAllData(), len(kurs.getAllData())-i)
-    voraussagungen.append(NeuNet.predict(daten))
-plt.plot(voraussagungen, label='Voraussagungen', marker='o')
-plt.plot(daten, label='echte Daten')
+daten = base.seperateData(kurs.getAllData(), 0)
+prediction = NeuNet.predict(daten)
+print("prediction: "+str(prediction))
+daten.append(prediction)
+plt.plot(daten)
 plt.legend()
 plt.show()

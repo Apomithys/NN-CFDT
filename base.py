@@ -15,23 +15,24 @@ def saveArray(array, csvname):
     writer = csv.writer(open(str(csvname), 'w', newline=''))
     writer.writerows(array)
 
-# Sepperiert Kursdaten (das muss in kurKlasse rein)
-def seperateData(tabelle, t):
+# Sepperiert Kursdaten
+def seperateData(tabelle, timing):
     data = [0]*10
     counter = 0
-    for p in range(t-10, t):
+    for p in range(timing-10, timing):
         data[counter] = tabelle[p][0]
         counter += 1
+    # Gibt 10 letzten Werte nach 'timing' aus
     return(data)
 
 # Bewertungsfnktion
 # real: echter Wert
-# x: prediction
-def bewertung(real, x):
+# prediction: Voraussagung
+def bewertung(real,  prediction):
     maximum = abs(real*real)
-    mult = x*real
+    mult = prediction*real
     if mult>0:
-        ausgabe = (-(maximum/(real*real))*(x-real)*(x-real))+maximum
+        ausgabe = (-(maximum/(real*real))*(prediction-real)*(prediction-real))+maximum
         if ausgabe<0:
             ausgabe = 0
     else:
